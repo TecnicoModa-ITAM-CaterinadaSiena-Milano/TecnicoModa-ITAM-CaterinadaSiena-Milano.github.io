@@ -1,0 +1,8 @@
+# Documento di lavoro personale: non fa parte del sito.
+# Se lo tieni in questa cartella, non deve finire nel repository pubblico.
+soul.md
+
+# Se in futuro userai un editor con cartelle di sistema, ignorale qui.
+Thumbs.db
+.DS_Store
+desktop.ini

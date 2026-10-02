@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Sitemap da aggiornare con l'URL reale dopo la pubblicazione:
+# Sitemap: https://utente.github.io/nome-sito/sitemap.xml

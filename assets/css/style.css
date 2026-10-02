@@ -1,0 +1,485 @@
+/* =========================================================================
+   TECNICO SISTEMA MODA — IIS Caterina da Siena, Milano
+   Stile: Dieter Rams in versione calda.
+
+   Ortografia  = Rams: griglia a passo 8px, angoli a zero, nessuna ombra,
+                 un solo colore che segnala un'azione, etichette maiuscole.
+   Atmosfera   = calda: fondo carta, testo marrone scuro, terracotta.
+
+   Tutti i valori visivi stanno in :root. Sotto, solo struttura.
+   ========================================================================= */
+
+
+/* =========================================================================
+   1. VARIABILI
+   ========================================================================= */
+:root {
+  /* colori — contrasti verificati */
+  --sfondo: #f5efe6;           /* fondo carta */
+  --superficie: #fbf7f0;      /* pannelli, menu, card */
+  --superficie-2: #ece1d2;    /* fasce alternate */
+  --testo: #2b2019;            /* 13.9:1 su --sfondo */
+  --testo-tenue: #6d5c4e;      /* 5.6:1  su --sfondo */
+  --bordo: #e2d6c4;
+  --accento: #a4553a;          /* 5.3:1 con bianco, 4.7:1 come testo su fondo */
+  --accento-tasto: #ffffff;
+  --accento-chiaro: #c9a97f;   /* 2.0:1 — solo bordi e campiture, MAI testo */
+
+  /* forma: rettilinea, senza effetto */
+  --r: 0px;
+  --bordo-larghezza: 1px;
+
+  /* ritmo: passo base 8px */
+  --s-1: 0.5rem;
+  --s-2: 1rem;
+  --s-3: 1.5rem;
+  --s-4: 2rem;
+  --s-5: 3rem;
+  --s-6: 5rem;
+  --s-7: 8rem;
+
+  /* tipografia: un solo carattere, un solo peso per gli accenti */
+  --font: "Helvetica Neue", Helvetica, Arial, "Segoe UI", system-ui, sans-serif;
+  --peso-titoli: 500;
+  --interlinea: 1.55;
+
+  --larghezza: 76rem;
+  --larghezza-testo: 66ch;
+  --transizione: 100ms linear;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sfondo: #171310;
+    --superficie: #201a15;
+    --superficie-2: #2a2219;
+    --testo: #f0e6da;
+    --testo-tenue: #b0a08f;
+    --bordo: #33291f;
+    --accento: #e3a184;          /* schiarito per mantenere il contrasto su fondo scuro */
+    --accento-tasto: #171310;
+    --accento-chiaro: #5c4534;
+  }
+}
+
+
+/* =========================================================================
+   2. RESET
+   ========================================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+body, h1, h2, h3, h4, p, figure, blockquote, ol, ul, dl, dd { margin: 0; }
+ol[class], ul[class] { list-style: none; padding: 0; }
+
+img, picture, svg, video { display: block; max-width: 100%; height: auto; }
+
+input, button, textarea, select { font: inherit; color: inherit; }
+
+html { scroll-behavior: smooth; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+
+/* =========================================================================
+   3. ACCESSIBILITA'
+   ========================================================================= */
+:focus-visible { outline: 3px solid var(--accento); outline-offset: 2px; }
+
+/* etichetta funzionale: piccola, maiuscola, spaziata */
+.etichetta {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--testo-tenue);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.salta {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: var(--s-2) var(--s-3);
+  background: var(--accento);
+  color: var(--accento-tasto);
+  text-decoration: none;
+  font-weight: 500;
+}
+.salta:focus { left: 0; }
+
+
+/* =========================================================================
+   4. BASE
+   ========================================================================= */
+body {
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: var(--interlinea);
+  color: var(--testo);
+  background: var(--sfondo);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-weight: var(--peso-titoli);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+h1 { font-size: clamp(1.9rem, 1.4rem + 2vw, 2.75rem); }
+h2 { font-size: clamp(1.4rem, 1.2rem + 1vw, 1.9rem); }
+h3 { font-size: 1.15rem; }
+
+p { max-width: var(--larghezza-testo); }
+
+a { color: var(--accento); text-underline-offset: 3px; }
+
+.container {
+  width: min(100% - 2rem, var(--larghezza));
+  margin-inline: auto;
+}
+
+
+/* =========================================================================
+   5. PULSANTE E LINK D'AZIONE
+   ========================================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: var(--s-2) var(--s-3);
+  border: var(--bordo-larghezza) solid var(--accento);
+  background: var(--accento);
+  color: var(--accento-tasto);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background var(--transizione), color var(--transizione);
+}
+.btn:hover { background: var(--testo); border-color: var(--testo); }
+
+.btn--secondario {
+  background: transparent;
+  color: var(--testo);
+  border-color: var(--bordo);
+}
+.btn--secondario:hover { background: var(--superficie-2); border-color: var(--accento); }
+
+
+/* =========================================================================
+   6. HEADER
+   ========================================================================= */
+.header { border-bottom: var(--bordo-larghezza) solid var(--bordo); background: var(--sfondo); }
+.header__interno {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  padding-block: var(--s-2);
+}
+
+.marca { text-decoration: none; color: var(--testo); display: flex; align-items: center; gap: var(--s-2); }
+.marca__testi { display: grid; gap: 2px; }
+.marca__nome { font-size: 1.05rem; font-weight: 700; line-height: 1.1; }
+.marca__sede {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--testo-tenue);
+}
+
+/* Lo stemma e' il file ufficiale dell'istituto: PNG 448x300, nero su fondo
+   trasparente. Non viene ritoccato ne' ridisegnato, solo dimensionato. */
+.marca__logo {
+  flex: none;
+  width: auto;
+  height: 48px;
+}
+
+/* nero su nero non si vede: il logo e' monochrome, quindi basta invertirlo.
+   Nessun altro elemento del sito usa filter. */
+@media (prefers-color-scheme: dark) {
+  .marca__logo { filter: invert(1); }
+}
+
+/* bottone hamburger: visibile solo sotto i 64rem */
+.menu-btn {
+  display: none;
+  align-items: center;
+  gap: var(--s-1);
+  padding: var(--s-1) var(--s-2);
+  border: var(--bordo-larghezza) solid var(--bordo);
+  background: transparent;
+  cursor: pointer;
+}
+.menu-btn__barra { display: block; width: 20px; height: 2px; background: var(--testo); }
+
+
+/* =========================================================================
+   7. NAVIGAZIONE
+   ========================================================================= */
+.nav__lista { display: flex; }
+.nav__voce { position: relative; }
+
+.nav__riga { display: flex; align-items: stretch; }
+
+.nav__voce-link {
+  display: block;
+  padding: var(--s-2);
+  color: var(--testo-tenue);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+  transition: color var(--transizione);
+}
+.nav__voce-link:hover { color: var(--testo); }
+.nav__voce-link[aria-current="page"] {
+  color: var(--testo);
+  border-bottom-color: var(--accento);
+}
+
+.nav__toggle {
+  width: 2rem;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: var(--testo-tenue);
+}
+.nav__toggle::before {
+  content: "";
+  display: block;
+  width: 8px; height: 8px;
+  margin: 0 auto;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translate(-2px, -2px);
+  transition: transform var(--transizione);
+}
+.nav__toggle[aria-expanded="true"]::before { transform: rotate(-135deg) translate(-2px, -2px); }
+
+/* pannello a discesa */
+.menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 30;
+  min-width: 17rem;
+  padding: var(--s-1) 0;
+  background: var(--superficie);
+  border: var(--bordo-larghezza) solid var(--bordo);
+}
+.menu.is-aperto { display: block; }
+
+.menu__lista { display: grid; }
+
+.menu__voce-link {
+  display: block;
+  padding: var(--s-1) var(--s-2);
+  color: var(--testo);
+  text-decoration: none;
+  font-size: 0.97rem;
+}
+.menu__voce-link:hover { background: var(--superficie-2); }
+.menu__voce-link[aria-current="page"] { color: var(--accento); font-weight: 500; }
+
+/* mega-menu dei settori: piu' colonne, senza riquadri */
+.menu--colonne { min-width: 52rem; padding: var(--s-3); }
+.menu__griglia { display: grid; gap: var(--s-4) var(--s-3); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.menu__settore-titolo {
+  display: block;
+  margin-bottom: var(--s-1);
+  color: var(--testo-tenue);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.menu__settore-titolo:hover { color: var(--accento); }
+
+
+/* -------------------------------------------------------------------------
+   Sotto i 64rem la navigazione diventa pannello e i sotto-menu ad accordion.
+   ------------------------------------------------------------------------- */
+@media (max-width: 63.99rem) {
+  .menu-btn { display: inline-flex; }
+  .marca__logo { height: 38px; }
+
+  .nav { display: none; border-top: var(--bordo-larghezza) solid var(--bordo); }
+  .nav.is-aperto { display: block; }
+
+  .nav__lista { flex-direction: column; }
+  .nav__voce { border-bottom: var(--bordo-larghezza) solid var(--bordo); }
+  .nav__riga { justify-content: space-between; }
+  .nav__voce-link { flex: 1; border-bottom: 0; white-space: normal; text-align: left; }
+  .nav__voce-link[aria-current="page"] { border-bottom: 0; color: var(--accento); }
+  .nav__toggle { width: 3rem; height: auto; }
+
+  /* in accordion il pannello sta nel flusso, non è sovrapposto */
+  .menu {
+    position: static;
+    min-width: 0;
+    border: 0;
+    border-top: var(--bordo-larghezza) solid var(--bordo);
+    background: transparent;
+    padding: var(--s-1) 0 var(--s-2);
+  }
+  .menu--colonne { padding: var(--s-2) 0; }
+  .menu__griglia { grid-template-columns: 1fr; gap: var(--s-3); }
+  .menu__settore + .menu__settore { border-top: var(--bordo-larghezza) solid var(--bordo); padding-top: var(--s-2); }
+}
+
+
+/* =========================================================================
+   8. PERCORSO (breadcrumb)
+   ========================================================================= */
+.percorso { border-bottom: var(--bordo-larghezza) solid var(--bordo); background: var(--superficie); }
+.percorso__lista { display: flex; flex-wrap: wrap; gap: var(--s-1); padding-block: var(--s-1); }
+.percorso__lista li::after { content: "/"; margin-left: var(--s-1); color: var(--bordo); }
+.percorso__lista li:last-child::after { content: ""; }
+.percorso__lista a { color: var(--testo-tenue); text-decoration: none; font-size: 0.9rem; }
+.percorso__lista a:hover { color: var(--testo); text-decoration: underline; }
+.percorso__corrente { font-size: 0.9rem; color: var(--testo); }
+
+
+/* =========================================================================
+   9. INTESTAZIONE DI PAGINA
+   ========================================================================= */
+.intestazione { padding-block: var(--s-5) var(--s-4); }
+.intestazione__occhiello {
+  margin-bottom: var(--s-1);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accento);
+}
+.intestazione__testo { margin-top: var(--s-2); max-width: 46ch; color: var(--testo-tenue); }
+
+
+/* =========================================================================
+   10. INDICE DI SEZIONE
+   Elenco di link alla struttura: nessuna scheda, nessuna decorazione.
+   ========================================================================= */
+.sezione { padding-block: var(--s-5); }
+.sezione--tinta { background: var(--superficie-2); }
+.sezione + .sezione { border-top: var(--bordo-larghezza) solid var(--bordo); }
+
+.indice { border-top: var(--bordo-larghezza) solid var(--bordo); }
+.indice__voce { border-bottom: var(--bordo-larghezza) solid var(--bordo); }
+.indice__voce:last-child { border-bottom: 0; }
+
+.indice__link {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-1);
+  color: var(--testo);
+  text-decoration: none;
+  transition: background var(--transizione);
+}
+.indice__link:hover { background: var(--superficie-2); }
+
+.indice__numero {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--testo-tenue);
+  min-width: 2.5rem;
+  font-variant-numeric: tabular-nums;
+}
+.indice__titolo { flex: 1; }
+
+
+/* =========================================================================
+   11. SEGNAPOSTO
+   ========================================================================= */
+.vuoto {
+  padding: var(--s-4);
+  border: var(--bordo-larghezza) dashed var(--bordo);
+  background: var(--superficie);
+  max-width: 44rem;
+}
+.vuoto__etichetta {
+  margin-bottom: var(--s-1);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--testo-tenue);
+}
+.vuoto p { color: var(--testo-tenue); }
+
+
+/* =========================================================================
+   12. GRIGLIA A DUE COLONNE
+   Non serve alla struttura: e' a disposizione per quando le pagine
+   accoglieranno testo, foto e didascalie.
+   ========================================================================= */
+.griglia { display: grid; gap: var(--s-4); }
+.griglia--2 { grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+
+
+/* =========================================================================
+   13. GRUPPO CON SOTTO-ELENCO
+   Serve per le voci che hanno pagine figlie (per esempio un settore).
+   ========================================================================= */
+.gruppo { border-top: var(--bordo-larghezza) solid var(--bordo); padding-block: var(--s-3); }
+.gruppo:first-of-type { border-top: 0; }
+.gruppo__titolo { margin-bottom: var(--s-1); }
+.gruppo__titolo a { color: var(--testo); text-decoration: none; }
+.gruppo__titolo a:hover { color: var(--accento); }
+
+
+/* =========================================================================
+   13. BANDIERA DI CHIUSURA
+   ========================================================================= */
+.bandiera { padding-block: var(--s-5); background: var(--superficie-2); border-top: var(--bordo-larghezza) solid var(--bordo); }
+.bandiera__testo { max-width: 52ch; }
+
+
+/* =========================================================================
+   14. FOOTER
+   ========================================================================= */
+.footer { padding-block: var(--s-4); background: var(--superficie); border-top: var(--bordo-larghezza) solid var(--bordo); }
+.footer__interno {
+  display: grid;
+  gap: var(--s-3);
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  font-size: 0.9rem;
+}
+.footer__titolo { margin-bottom: var(--s-1); color: var(--testo); }
+.footer__lista { display: grid; gap: 2px; }
+.footer__lista a { color: var(--testo-tenue); text-decoration: none; }
+.footer__lista a:hover { color: var(--testo); text-decoration: underline; }
+.footer p { color: var(--testo-tenue); }
+
+
+/* =========================================================================
+   15. STAMPA
+   ========================================================================= */
+@media print {
+  :root {
+    --sfondo: #ffffff;
+    --superficie: #ffffff;
+    --superficie-2: #ffffff;
+    --testo: #000000;
+    --testo-tenue: #333333;
+    --bordo: #cccccc;
+    --accento: #000000;
+    --accento-chiaro: #cccccc;
+  }
+  .header, .footer, .percorso, .menu-btn, .vuoto__etichetta { display: none !important; }
+  .menu { display: none !important; }
+  .vuoto { border: var(--bordo-larghezza) solid var(--bordo); }
+  .indice__link { padding-block: var(--s-1); }
+}
