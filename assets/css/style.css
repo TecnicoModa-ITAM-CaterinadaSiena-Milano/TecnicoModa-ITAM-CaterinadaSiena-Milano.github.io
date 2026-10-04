@@ -71,6 +71,9 @@
 
   --larghezza: 84rem;
   --larghezza-testo: 68ch;
+  /* margine laterale: cresce con lo schermo invece di restare fisso, cosi'
+     su un telefono non stringe il testo e su un monitor non resta un vuoto */
+  --margine: clamp(1.25rem, 4.5vw, 4rem);
   --transizione: 140ms ease;
 }
 
@@ -162,8 +165,17 @@ p { max-width: var(--larghezza-testo); }
 a { color: var(--blu); text-underline-offset: 3px; }
 
 .container {
-  width: min(100% - 2rem, var(--larghezza));
+  width: min(100% - var(--margine) * 2, var(--larghezza));
   margin-inline: auto;
+}
+
+/* I blocchi che non hanno un contenitore ricevono lo stesso margine, con la
+   stessa formula: quando lo schermo e' piu' largo della misura massima il
+   margine cresce fino a centrare il blocco, esattamente come il contenitore.
+   Se non si fa cosi' titoli e testi restano attaccati al bordo. */
+.titolo-pagina,
+.sezione {
+  padding-inline: max(var(--margine), calc((100% - var(--larghezza)) / 2));
 }
 
 
@@ -458,11 +470,13 @@ a { color: var(--blu); text-underline-offset: 3px; }
 .ingresso:hover { border-color: var(--giallo); transform: translateY(-3px); }
 .ingresso:focus-within { border-color: var(--giallo); }
 
-/* fascia colorata: ruota sulla famiglia primaria, senza codice nel generatore */
+/* Fascia colorata: ruota su tre colori gia' presenti nel sito, senza
+   aggiungerne di nuovi. Si applica al <li>, non al collegamento: dentro il
+   <li> il <a> e' sempre il primo figlio, quindi :nth-child sul link
+   non corrisponderebbe mai. */
 .ingresso__barra { display: block; height: 8px; background: var(--de-stijl-1); }
-.ingresso:nth-child(4n + 2) .ingresso__barra { background: var(--de-stijl-2); }
-.ingresso:nth-child(4n + 3) .ingresso__barra { background: var(--de-stijl-3); }
-.ingresso:nth-child(4n + 4) .ingresso__barra { background: var(--de-stijl-4); }
+.ingressi > li:nth-child(3n + 2) .ingresso__barra { background: var(--de-stijl-2); }
+.ingressi > li:nth-child(3n + 3) .ingresso__barra { background: var(--de-stijl-3); }
 
 .ingresso__testo { display: flex; flex-direction: column; gap: var(--s-2); padding: var(--s-3); }
 
@@ -513,11 +527,33 @@ a { color: var(--blu); text-underline-offset: 3px; }
 /* =========================================================================
    12b. BANNER DI COPERTINA — immagine di apertura delle pagine interne
    ========================================================================= */
-.banner { padding-bottom: var(--s-4); }
-.banner__immagine {
+/* Copertina video: il ciclo che gira sotto il titolo. Nessun poster: il primo
+   fotogramma fa da immagine di partenza. */
+.ciclo { margin: 0 0 var(--s-4); }
+.ciclo__film {
+  display: block;
   width: 100%;
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
+  border: 2px solid var(--bordo-tenue);
+  background: var(--superficie-2);
+}
+/* Se il film non parte resta il primo fotogramma, non un buco nero. */
+.ciclo__film:not([src]) { display: none; }
+
+.banner { padding-bottom: var(--s-4); }
+/* La copertina non viene mai ritagliata e non viene allargata oltre la sua
+   misura: una locandina verticale resta una locandina stretta e centrata,
+   una striscia larga prende tutta la larghezza utile. Ritagliare taglierebbe
+   via i loghi in fondo alla locandina 2025. */
+.banner__immagine {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 62vh;
+  margin-inline: auto;
   border: 2px solid var(--bordo-tenue);
   background: var(--superficie-2);
 }

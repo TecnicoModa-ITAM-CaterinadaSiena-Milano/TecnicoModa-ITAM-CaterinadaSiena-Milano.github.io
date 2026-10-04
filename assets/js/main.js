@@ -7,6 +7,7 @@
    2. aprire e chiudere i pannelli delle sezioni, con mouse e tastiera
    3. mostrare un video dell'intervista nel lettore, senza riproduzione
       automatica e senza caricare nulla prima dell'apertura
+   4. gestire le copertine video che girano da sole
    ========================================================================= */
 
 /* ---------------------------------------------------------------------
@@ -185,8 +186,51 @@ function initGalleria() {
 
 
 /* ---------------------------------------------------------------------
+   4. COPERTINE VIDEO
+   Il ciclo sotto il titolo si muove da solo. Viene fermato se chi legge
+   ha chiesto nel sistema di ridurre le animazioni, e quando non si vede:
+   un film che gira mentre nessuno lo guarda consuma batteria per niente.
+   --------------------------------------------------------------------- */
+function initCicli() {
+  const cicli = document.querySelectorAll('video[data-ciclo]');
+  if (!cicli.length) return;
+
+  const riduzione = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const applica = (film) => {
+    if (riduzione.matches) {
+      film.removeAttribute('autoplay');
+      film.pause();
+    } else if (!film.paused) {
+      film.play().catch(() => {});
+    }
+  };
+
+  cicli.forEach((film) => {
+    if (!riduzione.matches) film.play().catch(() => {});
+    riduzione.addEventListener?.('change', () => applica(film));
+
+    if (!('IntersectionObserver' in window)) return;
+    const osserva = new IntersectionObserver(
+      (voci) => {
+        voci.forEach((voce) => {
+          if (voce.isIntersecting) {
+            if (!riduzione.matches) film.play().catch(() => {});
+          } else {
+            film.pause();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    osserva.observe(film);
+  });
+}
+
+
+/* ---------------------------------------------------------------------
    AVVIO
    --------------------------------------------------------------------- */
 initBarra();
 initPannelli();
 initGalleria();
+initCicli();
