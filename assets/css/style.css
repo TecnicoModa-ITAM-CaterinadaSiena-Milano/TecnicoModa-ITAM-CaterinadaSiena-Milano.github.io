@@ -639,6 +639,10 @@ a { color: var(--blu); text-underline-offset: 3px; }
    14. ELENCO DI SEZIONE — solo collegamenti, nessun testo promozionale
    ========================================================================= */
 .sezione { padding-block: var(--s-5); }
+/* Un sottotitolo che segue un paragrafo ha bisogno di aria sopra: senza, il
+   testo e il titolo risultano attaccati. */
+.sezione h2 { margin-top: var(--s-5); }
+.sezione > h2:first-child { margin-top: 0; }
 
 .elenco { border-top: 2px solid var(--bordo); }
 .elenco__voce { border-bottom: 1px solid var(--bordo-tenue); }
