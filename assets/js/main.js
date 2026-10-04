@@ -8,6 +8,7 @@
    3. mostrare un video dell'intervista nel lettore, senza riproduzione
       automatica e senza caricare nulla prima dell'apertura
    4. gestire le copertine video che girano da sole
+   5. far scorrere le gallerie con le frecce
    ========================================================================= */
 
 /* ---------------------------------------------------------------------
@@ -228,9 +229,67 @@ function initCicli() {
 
 
 /* ---------------------------------------------------------------------
+   5. GALLERIE CON FRECCE
+   Ogni scena e' un'immagine o un film. Con una sola scena i comandi
+   vengono tolti: due frecce che non cambiano niente sono solo rumore.
+   Funziona con le frecce, con le frecce della tastiera e con il dito sul
+   telefono. Le scene nascoste sono davvero nascoste: non si raggiungono
+   con la tastiera e i film fermano.
+   --------------------------------------------------------------------- */
+function initCaroselli() {
+  for (const car of document.querySelectorAll('[data-carosello]')) {
+    const scene = [...car.querySelectorAll('[data-scena]')];
+    const comandi = car.querySelector('[data-comandi]');
+
+    if (scene.length < 2) {
+      comandi?.remove();
+      continue;
+    }
+
+    const indietro = car.querySelector('[data-indietro]');
+    const avanti = car.querySelector('[data-avanti]');
+    const conta = car.querySelector('[data-conta]');
+    let attuale = 0;
+
+    const mostra = (i) => {
+      attuale = (i + scene.length) % scene.length;
+      scene.forEach((s, n) => {
+        s.hidden = n !== attuale;
+        const film = s.querySelector('video');
+        if (film && n !== attuale) film.pause();
+      });
+      if (conta) conta.textContent = `${attuale + 1} di ${scene.length}`;
+    };
+
+    indietro.addEventListener('click', () => mostra(attuale - 1));
+    avanti.addEventListener('click', () => mostra(attuale + 1));
+
+    /* Sul lettore le frecce spostano il film: li lascia stare. */
+    car.addEventListener('keydown', (evento) => {
+      if (evento.target.closest('video')) return;
+      if (evento.key === 'ArrowLeft') { mostra(attuale - 1); evento.preventDefault(); }
+      if (evento.key === 'ArrowRight') { mostra(attuale + 1); evento.preventDefault(); }
+    });
+
+    let inizio = null;
+    car.addEventListener('touchstart', (e) => { inizio = e.changedTouches[0].clientX; }, { passive: true });
+    car.addEventListener('touchend', (e) => {
+      if (inizio === null) return;
+      const spostamento = e.changedTouches[0].clientX - inizio;
+      if (Math.abs(spostamento) > 40) mostra(attuale + (spostamento < 0 ? 1 : -1));
+      inizio = null;
+    }, { passive: true });
+
+    mostra(0);
+  }
+}
+
+
+/* ---------------------------------------------------------------------
    AVVIO
    --------------------------------------------------------------------- */
 initBarra();
 initPannelli();
 initGalleria();
 initCicli();
+initCaroselli();
