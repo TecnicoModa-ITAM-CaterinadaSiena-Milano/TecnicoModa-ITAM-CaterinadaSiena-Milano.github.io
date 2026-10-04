@@ -1,14 +1,18 @@
 /* =========================================================================
    TECNICO SISTEMA MODA (ITAM) — CATERINA DA SIENA · MILANO
 
-   Direzione: catalogo contemporaneo di design tessile e moda.
-   Fondo bianco caldo, testo quasi nero, blu elettrico come colore guida.
-   Griglia editoriale, pulsanti rettangolari con bordi netti.
+   Direzione: catalogo contemporaneo di design tessile, con la grammatica
+   dei tasti di Gerrit Rietveld — quadrati, separati, bordi netti.
 
-   Tema solo chiaro, di proposito: il fondo bianco caldo e il blu elettrico
-   sono l'identita' del sito, e una versione scura li tradirebbe. Lo stemma
-   dell'istituto e' nero: su fondo chiaro funziona, e non ha bisogno di essere
-   invertito.
+   Fondo       : prugna profondo #500019, il colore del sito Head Geneve
+   Accento     : magenta #ff00b4, lo stesso dei loro collegamenti
+   Colore guida: azzurro elettrico #6d9bff, schiarito per restare leggibile
+                 su fondo scuro (il blu elettrario puro sparirebbe)
+   Carattere   : Syne per tasti e titoli, Archivo per il testo corrente
+
+   Tema solo scuro, di proposito: e' l'identita' del sito. Lo stemma
+   dell'istituto e' nero e viene trattato con un bordo chiaro per restare
+   leggibile senza alterarne il colore.
 
    Tutti i valori visivi stanno in :root.
    ========================================================================= */
@@ -18,18 +22,36 @@
    1. VARIABILI
    ========================================================================= */
 :root {
-  /* colore — il blu e' l'unico colore guida */
-  --sfondo: #fbf9f6;         /* bianco caldo */
-  --superficie: #ffffff;
-  --campitura: #f2eee8;      /* campiture appena accennate */
-  --testo: #141414;           /* quasi nero — 17.5:1 sul fondo */
-  --testo-tenue: #5a5651;     /* 6.9:1 sul fondo */
-  --bordo: #ded8d0;           /* linee sottili, fra voci e paragrafi */
-  --bordo-netto: #141414;     /* bordi netti: pulsanti, riquadri, ingressi */
+  /* fondo e superfici */
+  --sfondo: #500019;          /* prugna profondo — colore di Head Geneve */
+  --superficie: #6b0029;      /* pannelli e tasti: un gradino sopra */
+  --superficie-2: #3a0013;    /* fasce alternate: sotto il fondo */
+  --campitura: #3a0013;
 
-  --blu: #0033ff;             /* colore guida — 6.8:1 come testo, 7.2:1 con bianco */
-  --blu-scuro: #0021b3;       /* stato attivo del blu — 10.6:1 come testo */
-  --blu-tenue: #e8ecff;       /* campitura chiara, solo per campiture */
+  /* testo */
+  --testo: #fdf2f6;           /* 16.2:1 sul fondo */
+  --testo-tenue: #e0aec0;     /*  9.2:1 sul fondo */
+
+  /* linee */
+  --bordo: #ff00b4;           /* magenta: la linea della griglia */
+  --bordo-tenue: #8a0f45;
+  --bordo-chiaro: #ffb3e6;
+
+  /* colori guida */
+  --blu: #6d9bff;             /* 5.7:1 sul fondo — per testi e pulsanti */
+  --magenta: #ff4dc4;         /* 5.2:1 — accento leggibile */
+  --giallo: #ffd400;          /* giallo De Stijl, solo per campiture e linee */
+  --rosso: #ff4b39;
+  --verde: #4be0a8;
+
+  /* la famiglia dei colori primari, ruotata sui tasti */
+  --de-stijl-1: #ff00b4;
+  --de-stijl-2: #6d9bff;
+  --de-stijl-3: #ffd400;
+  --de-stijl-4: #ff4b39;
+
+  /* testo da mettere su un fondo pieno */
+  --su-chiaro: #1a0022;       /* scuro leggibile su blu, giallo, magenta */
 
   /* griglia: passo base 8px */
   --s-1: 0.5rem;
@@ -40,7 +62,8 @@
   --s-6: 4.5rem;
   --s-7: 7rem;
 
-  /* tipografia: un solo carattere, tre voci */
+  /* tipografia */
+  --font-tasti: "Syne", "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font: "Archivo", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
   --peso-corpo: 400;
   --peso-medio: 500;
@@ -48,7 +71,7 @@
 
   --larghezza: 84rem;
   --larghezza-testo: 68ch;
-  --transizione: 120ms ease;
+  --transizione: 140ms ease;
 }
 
 
@@ -73,17 +96,18 @@ html { scroll-behavior: smooth; }
    3. ACCESSIBILITA'
    ========================================================================= */
 :focus-visible {
-  outline: 3px solid var(--blu);
-  outline-offset: 2px;
+  outline: 3px solid var(--giallo);
+  outline-offset: 3px;
 }
 
 /* etichetta editoriale: piccola, maiuscola, spaziata */
 .etichetta {
+  font-family: var(--font-tasti);
   font-size: 0.7rem;
-  font-weight: var(--peso-medio);
-  letter-spacing: 0.1em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--testo-tenue);
+  color: var(--bordo-chiaro);
 }
 
 .visually-hidden {
@@ -101,8 +125,8 @@ html { scroll-behavior: smooth; }
   top: 0;
   z-index: 100;
   padding: var(--s-1) var(--s-2);
-  background: var(--blu);
-  color: #fff;
+  background: var(--giallo);
+  color: var(--su-chiaro);
   text-decoration: none;
   font-weight: var(--peso-medio);
 }
@@ -115,22 +139,22 @@ html { scroll-behavior: smooth; }
 body {
   font-family: var(--font);
   font-size: 1.0625rem;
-  line-height: 1.6;
+  line-height: 1.65;
   color: var(--testo);
   background: var(--sfondo);
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4 {
+  font-family: var(--font-tasti);
   font-weight: var(--peso-forte);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 
-/* il titolo corrente e' il segnale piu' forte della pagina */
-h1 { font-size: clamp(2rem, 1.3rem + 3vw, 3.6rem); }
-h2 { font-size: clamp(1.4rem, 1.2rem + 1vw, 1.9rem); }
+h1 { font-size: clamp(2rem, 1.3rem + 3vw, 3.4rem); }
+h2 { font-size: clamp(1.4rem, 1.2rem + 1vw, 1.9rem); margin-bottom: var(--s-3); }
 h3 { font-size: 1.15rem; }
 
 p { max-width: var(--larghezza-testo); }
@@ -151,30 +175,27 @@ a { color: var(--blu); text-underline-offset: 3px; }
   align-items: center;
   gap: var(--s-1);
   padding: 0.8rem 1.5rem;
-  border: 2px solid var(--blu);
+  border: 2px solid var(--bordo);
   border-radius: 0;
-  background: var(--blu);
-  color: #fff;
-  font-weight: var(--peso-medio);
+  background: var(--bordo);
+  color: var(--su-chiaro);
+  font-family: var(--font-tasti);
+  font-weight: 700;
   font-size: 0.95rem;
   text-decoration: none;
   cursor: pointer;
   transition: background var(--transizione), border-color var(--transizione), color var(--transizione);
 }
-.btn:hover { background: var(--blu-scuro); border-color: var(--blu-scuro); }
-.btn:active { background: #001a92; border-color: #001a92; }
+.btn:hover { background: var(--giallo); border-color: var(--giallo); }
 
-.btn--contorno { background: transparent; color: var(--testo); border-color: var(--bordo-netto); }
-.btn--contorno:hover { background: var(--bordo-netto); color: #fff; border-color: var(--bordo-netto); }
-
-.btn--invertito { background: #fff; color: var(--blu); border-color: #fff; }
-.btn--invertito:hover { background: transparent; color: #fff; border-color: #fff; }
+.btn--contorno { background: transparent; color: var(--testo); border-color: var(--bordo-chiaro); }
+.btn--contorno:hover { background: var(--bordo-chiaro); color: var(--su-chiaro); border-color: var(--bordo-chiaro); }
 
 
 /* =========================================================================
    6. INTESTAZIONE — titolo su due livelli
    ========================================================================= */
-.intestazione { border-bottom: var(--bordo-larghezza, 1px) solid var(--bordo-netto); }
+.intestazione { border-bottom: 2px solid var(--bordo); }
 .intestazione__interno {
   display: flex;
   align-items: center;
@@ -190,68 +211,78 @@ a { color: var(--blu); text-underline-offset: 3px; }
   text-decoration: none;
   color: var(--testo);
 }
-.titolo-sito__logo { flex: none; width: auto; height: 3.25rem; }
+/* lo stemma e' nero: su fondo scuro non si vede, quindi lo si appoggia
+   su un riquadro chiaro invece di cambiarne il colore */
+.titolo-sito__logo {
+  flex: none;
+  width: auto;
+  height: 3.25rem;
+  padding: 0.4rem;
+  background: var(--testo);
+}
 .titolo-sito__riga1 {
   display: block;
-  font-size: clamp(1.05rem, 0.9rem + 0.7vw, 1.4rem);
-  font-weight: var(--peso-forte);
-  letter-spacing: -0.02em;
+  font-family: var(--font-tasti);
+  font-size: clamp(1.05rem, 0.9rem + 0.7vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
   line-height: 1.1;
 }
 .titolo-sito__riga2 {
   display: block;
-  margin-top: 2px;
-  font-size: 0.78rem;
-  font-weight: var(--peso-medio);
-  letter-spacing: 0.04em;
-  color: var(--testo-tenue);
+  margin-top: 3px;
+  font-family: var(--font-tasti);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bordo-chiaro);
 }
-.titolo-sito:hover .titolo-sito__riga1 { color: var(--blu); }
+.titolo-sito:hover .titolo-sito__riga1 { color: var(--giallo); }
 
 
 /* =========================================================================
-   7. BARRA DI NAVIGAZIONE
-   Nove voci in riga orizzontale sotto il titolo. Quando lo spazio non
-   basta si dispongono su due righe: si avvolgono, ma nessuna etichetta
-   viene ridotta o troncata.
+   7. BARRA DI NAVIGAZIONE — tasti quadrati e separati, come da Rietveld
+   Nove voci sotto il titolo. Quando lo spazio non basta si dispongono su
+   due righe: si avvolgono, ma nessuna etichetta viene ridotta o troncata.
    ========================================================================= */
-.barra { background: var(--superficie); }
+.barra { background: var(--sfondo); }
 
-.nav__lista { display: flex; flex-wrap: wrap; }
+.nav__lista { display: flex; flex-wrap: wrap; gap: 2px; }
 
-.nav__voce {
-  position: relative;
-  display: flex;
-  align-items: stretch;
-  border-right: 1px solid var(--bordo);
-}
-.nav__voce:first-child { border-left: 1px solid var(--bordo); }
+.nav__voce { position: relative; display: flex; align-items: stretch; }
 
-/* il collegamento alla sezione: non apre nulla, porta alla pagina */
+/* il collegamento alla sezione: porta alla pagina, non apre nulla */
 .nav__voce-sezione {
   display: flex;
   align-items: center;
   padding: var(--s-2) var(--s-3);
+  background: var(--superficie);
+  border: 1px solid var(--bordo-tenue);
   color: var(--testo);
   text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: var(--peso-medio);
+  font-family: var(--font-tasti);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   white-space: nowrap;
   transition: background var(--transizione), color var(--transizione);
 }
-.nav__voce-sezione:hover { background: var(--bordo-netto); color: #fff; }
+.nav__voce-sezione:hover { background: var(--giallo); border-color: var(--giallo); color: var(--su-chiaro); }
 .nav__voce-sezione[aria-current="true"] {
-  background: var(--blu);
-  color: #fff;
+  background: var(--bordo);
+  border-color: var(--bordo);
+  color: var(--su-chiaro);
 }
 
 /* il comando che apre il sotto-menu: distinto dal collegamento */
 .nav__apri {
-  width: 2.25rem;
-  border: 0;
-  border-left: 1px solid var(--bordo);
-  background: transparent;
-  color: var(--testo-tenue);
+  width: 2.1rem;
+  border: 1px solid var(--bordo-tenue);
+  border-left: 0;
+  background: var(--superficie);
+  color: var(--bordo-chiaro);
   cursor: pointer;
   transition: background var(--transizione), color var(--transizione);
 }
@@ -265,22 +296,21 @@ a { color: var(--blu); text-underline-offset: 3px; }
   transform: translateY(-2px) rotate(45deg);
   transition: transform var(--transizione);
 }
-.nav__apri:hover { background: var(--campitura); color: var(--testo); }
-.nav__apri[aria-expanded="true"] { background: var(--blu-tenue); color: var(--blu-scuro); }
+.nav__apri:hover { background: var(--bordo-tenue); color: var(--testo); }
+.nav__apri[aria-expanded="true"] { background: var(--bordo); color: var(--su-chiaro); border-color: var(--bordo); }
 .nav__apri[aria-expanded="true"]::before { transform: translateY(2px) rotate(-135deg); }
 
-/* il pannello non si apre col passaggio del mouse: solo con un comando,
-   cosi' non serve inseguire la barra con il puntatore */
+/* il pannello si apre solo con un comando: col puntatore non si insegue */
 .pannello {
   display: none;
   position: absolute;
-  top: 100%;
+  top: calc(100% + 2px);
   left: 0;
   z-index: 40;
   min-width: 22rem;
   padding: var(--s-2);
-  background: var(--superficie);
-  border: 2px solid var(--bordo-netto);
+  background: var(--superficie-2);
+  border: 2px solid var(--bordo);
 }
 .pannello.is-aperto { display: block; }
 
@@ -294,8 +324,8 @@ a { color: var(--blu); text-underline-offset: 3px; }
   text-decoration: none;
   font-size: 0.95rem;
 }
-.pannello__voce:hover { background: var(--blu-tenue); border-left-color: var(--blu); }
-.pannello__voce[aria-current="page"] { border-left-color: var(--blu); font-weight: var(--peso-medio); }
+.pannello__voce:hover { background: var(--bordo-tenue); border-left-color: var(--giallo); }
+.pannello__voce[aria-current="page"] { border-left-color: var(--bordo); font-weight: var(--peso-medio); }
 
 
 /* =========================================================================
@@ -311,34 +341,32 @@ a { color: var(--blu); text-underline-offset: 3px; }
   display: block;
   margin-bottom: var(--s-1);
   padding-bottom: var(--s-1);
-  border-bottom: 1px solid var(--bordo);
-  color: var(--testo-tenue);
-  font-size: 0.72rem;
-  font-weight: var(--peso-forte);
-  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--bordo-tenue);
+  color: var(--giallo);
+  font-family: var(--font-tasti);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
 }
-.pannello__settore-titolo:hover { color: var(--blu); }
+.pannello__settore-titolo:hover { color: var(--bordo-chiaro); }
 
 
 /* =========================================================================
    9. GRUPPO CON FIGLIE — Orientamento e iscrizioni
-   Le due sottovoci di "Le notti del tecnico moda" restano dentro lo stesso
-   pannello: il riquadro e il rientro rendono evidente la dipendenza.
    ========================================================================= */
 .pannello__gruppo { margin-bottom: var(--s-2); }
 .pannello__figlie {
-  margin: 2px 0 0 0;
+  margin: 2px 0 0;
   padding-left: var(--s-2);
-  border-left: 3px solid var(--blu);
+  border-left: 3px solid var(--giallo);
 }
 .pannello__voce-figlia { font-size: 0.9rem; padding-left: var(--s-2); }
 
-/* "Orientamento e iscrizioni" resta individuabile anche senza aprire nulla */
-.nav__voce--rilevante .nav__voce-sezione { color: var(--blu); }
-.nav__voce--rilevante .nav__voce-sezione:hover { background: var(--blu); color: #fff; }
-.nav__voce--rilevante .nav__apri { color: var(--blu); }
+.nav__voce--rilevante .nav__voce-sezione { border-color: var(--giallo); color: var(--giallo); }
+.nav__voce--rilevante .nav__voce-sezione:hover { background: var(--giallo); color: var(--su-chiaro); }
+.nav__voce--rilevante .nav__apri { color: var(--giallo); }
 
 
 /* =========================================================================
@@ -350,101 +378,128 @@ a { color: var(--blu); text-underline-offset: 3px; }
   align-items: center;
   gap: var(--s-1);
   padding: 0.7rem 1rem;
-  border: 2px solid var(--bordo-netto);
+  border: 2px solid var(--bordo);
   border-radius: 0;
   background: var(--superficie);
   color: var(--testo);
-  font-weight: var(--peso-medio);
+  font-family: var(--font-tasti);
+  font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
 }
 .menu-btn__righe { display: grid; gap: 3px; }
 .menu-btn__righe span { display: block; width: 16px; height: 2px; background: currentColor; }
 
-.accesso-rapido { display: none; }
+.accesso-rapido {
+  display: none;
+  padding: 0.7rem 1rem;
+  border: 2px solid var(--giallo);
+  background: var(--giallo);
+  color: var(--su-chiaro);
+  font-family: var(--font-tasti);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.accesso-rapido:hover { background: transparent; color: var(--giallo); }
 
 
 /* =========================================================================
    11. PERCORSO
    ========================================================================= */
-.percorso { border-bottom: 1px solid var(--bordo); background: var(--campitura); }
+.percorso { border-bottom: 1px solid var(--bordo-tenue); background: var(--superficie-2); }
 .percorso__lista { display: flex; flex-wrap: wrap; align-items: center; gap: 0; padding-block: var(--s-1); }
 .percorso__lista li { display: flex; align-items: center; }
-.percorso__lista li + li::before { content: "/"; margin-inline: 0.4rem; color: var(--bordo-netto); }
-.percorso__lista a { color: var(--testo-tenue); text-decoration: none; font-size: 0.88rem; }
-.percorso__lista a:hover { color: var(--blu); text-decoration: underline; }
+.percorso__lista li + li::before { content: "/"; margin-inline: 0.4rem; color: var(--bordo); }
+.percorso__lista a { color: var(--bordo-chiaro); text-decoration: none; font-size: 0.88rem; }
+.percorso__lista a:hover { color: var(--giallo); text-decoration: underline; }
 .percorso__corrente { font-size: 0.88rem; color: var(--testo); font-weight: var(--peso-medio); }
 
 
 /* =========================================================================
-   12. PAGINA PRINCIPALE — composizione tipografica e nove ingressi
+   12. PAGINA PRINCIPALE — composizione e nove tasti
+   I tasti sono quadrati, separati da un vuoto che fa vedere il fondo:
+   e' la regola di Rietveld, dove ogni piano e' un blocco autonomo.
+   Ogni tasto porta una fascia colorata, ruotata sulla famiglia primaria.
    ========================================================================= */
-.composizione { padding-block: var(--s-6) var(--s-5); border-bottom: 1px solid var(--bordo); }
+.composizione { padding-block: var(--s-6) var(--s-5); }
 .composizione__occhiello { margin-bottom: var(--s-3); }
 .composizione__titolo {
   font-size: clamp(2.6rem, 1.2rem + 6.5vw, 6rem);
-  font-weight: var(--peso-forte);
-  line-height: 0.95;
-  letter-spacing: -0.035em;
+  font-weight: 800;
+  line-height: 0.94;
+  letter-spacing: -0.03em;
   max-width: 18ch;
 }
-.composizione__titolo em {
-  font-style: normal;
-  color: var(--blu);
-}
+.composizione__titolo em { font-style: normal; color: var(--bordo); }
 
-/* griglia editoriale: le celle si toccano e la linea resta visibile */
 .ingressi {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--bordo-netto);
-  border: 1px solid var(--bordo-netto);
-  border-top: 0;
+  gap: var(--s-3);
+  margin-bottom: var(--s-6);
 }
 
 .ingresso {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: var(--s-5);
-  min-height: 9rem;
-  padding: var(--s-3);
   background: var(--superficie);
+  border: 2px solid var(--bordo-tenue);
   color: var(--testo);
   text-decoration: none;
-  transition: background var(--transizione), color var(--transizione);
+  transition: border-color var(--transizione), transform var(--transizione);
 }
+.ingresso:hover { border-color: var(--giallo); transform: translateY(-3px); }
+.ingresso:focus-within { border-color: var(--giallo); }
+
+/* fascia colorata: ruota sulla famiglia primaria, senza codice nel generatore */
+.ingresso__barra { display: block; height: 8px; background: var(--de-stijl-1); }
+.ingresso:nth-child(4n + 2) .ingresso__barra { background: var(--de-stijl-2); }
+.ingresso:nth-child(4n + 3) .ingresso__barra { background: var(--de-stijl-3); }
+.ingresso:nth-child(4n + 4) .ingresso__barra { background: var(--de-stijl-4); }
+
+.ingresso__testo { display: flex; flex-direction: column; gap: var(--s-2); padding: var(--s-3); flex: 1; }
 .ingresso__numero {
+  font-family: var(--font-tasti);
   font-size: 0.72rem;
-  font-weight: var(--peso-medio);
-  letter-spacing: 0.1em;
-  color: var(--testo-tenue);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--bordo-chiaro);
 }
 .ingresso__nome {
-  font-size: 1.15rem;
-  font-weight: var(--peso-forte);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-family: var(--font-tasti);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
 }
-.ingresso:hover { background: var(--bordo-netto); color: #fff; }
-.ingresso:hover .ingresso__numero { color: #fff; }
 
-/* la Design Week occupa il riquadro grande: e' il punto di forza del sito */
-.ingresso--grande { grid-column: span 2; grid-row: span 2; min-height: 18.5rem; }
-.ingresso--grande .ingresso__nome { font-size: clamp(1.6rem, 1.1rem + 2vw, 2.6rem); }
+/* immagine di copertina, sotto la scritta. Dove non c'e' resta solo la
+   scritta: nessun riquadro vuoto, nessuno spazio prenotato a caso. */
+.ingresso__copertina { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--superficie-2); }
 
-/* Orientamento e iscrizioni si legge subito: fondo blu */
-.ingresso--blu { background: var(--blu); color: #fff; }
-.ingresso--blu .ingresso__numero { color: #fff; }
-.ingresso--blu:hover { background: var(--blu-scuro); }
+/* la Design Week occupa il tasto grande: e' il punto di forza del sito */
+.ingresso--grande { grid-column: span 2; grid-row: span 2; }
+.ingresso--grande .ingresso__nome { font-size: clamp(1.7rem, 1.1rem + 2.4vw, 3rem); }
+.ingresso--grande .ingresso__testo { padding: var(--s-4); }
+.ingresso--grande .ingresso__barra { height: 12px; background: var(--blu); }
+.ingresso--grande { background: var(--blu); border-color: var(--blu); }
+.ingresso--grande .ingresso__nome,
+.ingresso--grande .ingresso__numero { color: var(--su-chiaro); }
+.ingresso--grande:hover { border-color: var(--giallo); }
+
+/* Orientamento e iscrizioni si legge subito */
+.ingresso--blu { background: var(--bordo); border-color: var(--bordo); }
+.ingresso--blu .ingresso__numero,
+.ingresso--blu .ingresso__nome { color: var(--su-chiaro); }
+.ingresso--blu .ingresso__barra { background: var(--giallo); }
 
 
 /* =========================================================================
    13. INTESTAZIONE DI PAGINA INTERNA
    ========================================================================= */
 .titolo-pagina { padding-block: var(--s-5) var(--s-4); }
-.titolo-pagina__occhiello { margin-bottom: var(--s-2); color: var(--blu); }
+.titolo-pagina__occhiello { margin-bottom: var(--s-2); color: var(--giallo); }
 .titolo-pagina__testo { margin-top: var(--s-2); max-width: 58ch; color: var(--testo-tenue); }
 
 
@@ -453,8 +508,8 @@ a { color: var(--blu); text-underline-offset: 3px; }
    ========================================================================= */
 .sezione { padding-block: var(--s-5); }
 
-.elenco { border-top: 2px solid var(--bordo-netto); }
-.elenco__voce { border-bottom: 1px solid var(--bordo); }
+.elenco { border-top: 2px solid var(--bordo); }
+.elenco__voce { border-bottom: 1px solid var(--bordo-tenue); }
 .elenco__link {
   display: flex;
   align-items: baseline;
@@ -464,56 +519,58 @@ a { color: var(--blu); text-underline-offset: 3px; }
   text-decoration: none;
   transition: background var(--transizione), padding-left var(--transizione);
 }
-.elenco__link:hover { background: var(--blu-tenue); padding-left: var(--s-3); }
+.elenco__link:hover { background: var(--bordo-tenue); padding-left: var(--s-3); }
 .elenco__numero {
   min-width: 2.5rem;
+  font-family: var(--font-tasti);
   font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  color: var(--testo-tenue);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--bordo-chiaro);
   font-variant-numeric: tabular-nums;
 }
-.elenco__titolo { flex: 1; font-size: 1.1rem; font-weight: var(--peso-medio); }
-.elenco__freccia { color: var(--blu); }
+.elenco__titolo { flex: 1; font-family: var(--font-tasti); font-size: 1.15rem; font-weight: 600; }
+.elenco__freccia { color: var(--bordo); }
 
-/* settore: le aziende stanno sotto il proprio settore */
-.gruppo { padding-block: var(--s-3); border-bottom: 1px solid var(--bordo); }
+.gruppo { padding-block: var(--s-3); border-bottom: 1px solid var(--bordo-tenue); }
 .gruppo__titolo { margin-bottom: var(--s-1); }
 .gruppo__titolo a {
   display: inline-flex;
   align-items: baseline;
   gap: var(--s-2);
   color: var(--testo);
-  font-size: 1.1rem;
-  font-weight: var(--peso-medio);
+  font-family: var(--font-tasti);
+  font-size: 1.15rem;
+  font-weight: 600;
   text-decoration: none;
 }
-.gruppo__titolo a:hover { color: var(--blu); }
-.gruppo__figlie { display: grid; gap: 2px; padding-left: var(--s-3); border-left: 2px solid var(--blu); }
+.gruppo__titolo a:hover { color: var(--giallo); }
+.gruppo__figlie { display: grid; gap: 2px; padding-left: var(--s-3); border-left: 2px solid var(--bordo); }
 
 
 /* =========================================================================
    15. SCHEDA PAGINA — predisposta per i materiali, senza spazi vuoti
    ========================================================================= */
-.scheda { padding: var(--s-3); border: 1px dashed var(--bordo-netto); background: var(--superficie); max-width: 46rem; }
+.scheda { padding: var(--s-3); border: 1px dashed var(--bordo-chiaro); background: var(--superficie); max-width: 46rem; }
 .scheda__etichetta {
   margin-bottom: var(--s-1);
+  font-family: var(--font-tasti);
   font-size: 0.7rem;
-  font-weight: var(--peso-medio);
-  letter-spacing: 0.1em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--testo-tenue);
+  color: var(--bordo-chiaro);
 }
 .scheda p { color: var(--testo-tenue); }
 
-/* appunti del docente, in attesa di passaggio al sito */
 .appunti {
   padding: var(--s-2) var(--s-3);
-  border-left: 3px solid var(--blu);
-  background: var(--blu-tenue);
+  border-left: 3px solid var(--giallo);
+  background: var(--superficie-2);
   font-size: 0.9rem;
 }
 .appunti p { max-width: none; }
-.appunti strong { display: block; margin-bottom: 2px; }
+.appunti strong { display: block; margin-bottom: 2px; font-family: var(--font-tasti); }
 
 
 /* =========================================================================
@@ -521,8 +578,8 @@ a { color: var(--blu); text-underline-offset: 3px; }
    ========================================================================= */
 .galleria { display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); }
 
-.scheda-video { display: flex; flex-direction: column; border: 1px solid var(--bordo-netto); background: var(--superficie); }
-.scheda-video__copertina { position: relative; aspect-ratio: 16 / 9; background: var(--campitura); }
+.scheda-video { display: flex; flex-direction: column; border: 2px solid var(--bordo-tenue); background: var(--superficie); }
+.scheda-video__copertina { position: relative; aspect-ratio: 16 / 9; background: var(--superficie-2); overflow: hidden; }
 .scheda-video__copertina img { width: 100%; height: 100%; object-fit: cover; }
 
 .scheda-video__gioca {
@@ -532,22 +589,22 @@ a { color: var(--blu); text-underline-offset: 3px; }
   display: grid;
   place-items: center;
   width: 4rem; height: 4rem;
-  border: 2px solid #fff;
+  border: 2px solid var(--testo);
   border-radius: 50%;
-  background: var(--blu);
-  color: #fff;
+  background: var(--bordo);
+  color: var(--su-chiaro);
   cursor: pointer;
 }
-.scheda-video__gioca:hover { background: var(--blu-scuro); }
+.scheda-video__gioca:hover { background: var(--giallo); border-color: var(--giallo); }
 
 .scheda-video__testi { padding: var(--s-2); }
-.scheda-video__nome { font-weight: var(--peso-medio); }
+.scheda-video__nome { font-family: var(--font-tasti); font-weight: 700; }
 .scheda-video__ruolo { display: block; margin-top: 2px; font-size: 0.82rem; color: var(--testo-tenue); }
 .scheda-video__descrizione { margin-top: var(--s-1); font-size: 0.92rem; color: var(--testo-tenue); }
 
 .nessuna-scheda {
   padding: var(--s-3);
-  border: 1px dashed var(--bordo-netto);
+  border: 1px dashed var(--bordo-chiaro);
   color: var(--testo-tenue);
   max-width: 46rem;
 }
@@ -563,33 +620,34 @@ a { color: var(--blu); text-underline-offset: 3px; }
   display: grid;
   place-items: center;
   padding: var(--s-2);
-  background: rgb(20 20 20 / 85%);
+  background: rgb(26 0 34 / 88%);
 }
 .lettore[hidden] { display: none; }
 
 .lettore__finestra {
   width: min(100%, 60rem);
   background: var(--superficie);
-  border: 2px solid var(--blu);
+  border: 2px solid var(--bordo);
 }
-.lettore__titolo { font-weight: var(--peso-medio); }
 .lettore__barra {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--s-2);
   padding: var(--s-2);
-  border-bottom: 1px solid var(--bordo);
+  border-bottom: 1px solid var(--bordo-tenue);
 }
+.lettore__titolo { font-family: var(--font-tasti); font-weight: 700; }
 .lettore__chiudi {
   padding: 0.4rem 0.9rem;
-  border: 2px solid var(--bordo-netto);
+  border: 2px solid var(--bordo);
   background: transparent;
   color: var(--testo);
-  font-weight: var(--peso-medio);
+  font-family: var(--font-tasti);
+  font-weight: 600;
   cursor: pointer;
 }
-.lettore__chiudi:hover { background: var(--bordo-netto); color: #fff; }
+.lettore__chiudi:hover { background: var(--bordo); color: var(--su-chiaro); }
 .lettore__contenuto { padding: var(--s-2); }
 .lettore__contenuto iframe,
 .lettore__contenuto video { width: 100%; aspect-ratio: 16 / 9; border: 0; background: #000; }
@@ -598,70 +656,58 @@ a { color: var(--blu); text-underline-offset: 3px; }
 /* =========================================================================
    18. PIECIPAGINA
    ========================================================================= */
-.piedipagina { padding-block: var(--s-4); background: var(--superficie); border-top: 2px solid var(--bordo-netto); }
+.piedipagina { padding-block: var(--s-4); background: var(--superficie-2); border-top: 2px solid var(--bordo); }
 .piedipagina__interno {
   display: grid;
   gap: var(--s-3);
   grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
   font-size: 0.9rem;
 }
-.piedipagina__titolo { margin-bottom: var(--s-1); font-weight: var(--peso-medio); }
+.piedipagina__titolo { margin-bottom: var(--s-1); font-family: var(--font-tasti); font-weight: 700; }
 .piedipagina p { color: var(--testo-tenue); }
 .piedipagina__lista { display: grid; gap: 2px; }
 .piedipagina__lista a { color: var(--testo-tenue); text-decoration: none; }
-.piedipagina__lista a:hover { color: var(--blu); text-decoration: underline; }
+.piedipagina__lista a:hover { color: var(--giallo); text-decoration: underline; }
 
 
 /* =========================================================================
-   19. SCHERM PICCOLI
-   La barra orizzontale diventa un pannello a fisarmonica. Le nove voci
-   restano leggibili per intero, con bersagli comodi da toccare.
+   19. SCHERMI PICCOLI
    ========================================================================= */
 @media (max-width: 68rem) {
   .ingressi { grid-template-columns: repeat(2, 1fr); }
-  .ingresso--grande { grid-column: span 2; grid-row: auto; min-height: 12rem; }
+  .ingresso--grande { grid-column: span 2; grid-row: auto; }
 }
 
 @media (max-width: 64rem) {
-  /* comando menu e accesso rapido */
   .comandi-barra { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); }
-  .accesso-rapido {
-    display: inline-flex;
-    padding: 0.7rem 1rem;
-    background: var(--blu);
-    color: #fff;
-    font-weight: var(--peso-medio);
-    font-size: 0.9rem;
-    text-decoration: none;
-  }
-  .accesso-rapido:hover { background: var(--blu-scuro); }
+  .accesso-rapido { display: inline-flex; }
 
-  .barra { border-bottom: 2px solid var(--bordo-netto); background: var(--superficie); }
-  .nav { display: none; border-top: 1px solid var(--bordo); }
+  .barra { border-bottom: 2px solid var(--bordo); }
+  .nav { display: none; }
   .nav.is-aperto { display: block; }
 
-  .nav__lista { flex-direction: column; }
-  .nav__voce { border-right: 0; border-bottom: 1px solid var(--bordo); }
-  .nav__voce:first-child { border-left: 0; }
-  .nav__voce:last-child { border-bottom: 0; }
-  /* min-width: 0 permette all'etichetta di scendere sotto la propria
-     larghezza minima: senza, "Visite a musei e visite aziendali" su un
-     telefono da 375px spingerebbe la pagina lateralmente. */
-  .nav__voce-sezione { flex: 1; min-width: 0; font-size: 1.05rem; padding: var(--s-2); white-space: normal; }
-  .nav__apri { width: 3.25rem; flex: none; }
+  .nav__lista { flex-direction: column; gap: 2px; padding-top: 2px; }
+  .nav__voce { border: 0; }
+  .nav__voce-sezione {
+    flex: 1;
+    min-width: 0;
+    font-size: 1rem;
+    white-space: normal;
+  }
+  .nav__apri { width: 3.25rem; flex: none; border-left: 1px solid var(--bordo-tenue); }
 
-  /* in fisarmonica il pannello sta nel flusso, non e' sovrapposto */
   .pannello,
   .pannello--colonne {
     position: static;
     min-width: 0;
-    padding: 0 var(--s-2) var(--s-2);
+    padding: var(--s-1) var(--s-2) var(--s-2);
     border: 0;
-    border-top: 1px solid var(--bordo);
-    background: var(--campitura);
+    border-left: 3px solid var(--bordo);
+    border-top: 0;
+    background: var(--superficie-2);
   }
   .pannello__settori { grid-template-columns: 1fr; gap: var(--s-2); }
-  .pannello__settore + .pannello__settore { padding-top: var(--s-2); border-top: 1px solid var(--bordo); }
+  .pannello__settore + .pannello__settore { padding-top: var(--s-2); border-top: 1px solid var(--bordo-tenue); }
   .pannello__voce { padding-block: 0.8rem; }
 }
 
@@ -678,9 +724,11 @@ a { color: var(--blu); text-underline-offset: 3px; }
    ========================================================================= */
 @media print {
   :root {
-    --sfondo: #fff; --superficie: #fff; --campitura: #fff;
-    --testo: #000; --testo-tenue: #333; --bordo: #ccc; --bordo-netto: #000;
-    --blu: #000; --blu-tenue: #fff;
+    --sfondo: #fff; --superficie: #fff; --superficie-2: #fff; --campitura: #fff;
+    --testo: #000; --testo-tenue: #333;
+    --bordo: #000; --bordo-tenue: #999; --bordo-chiaro: #333;
+    --blu: #000; --magenta: #000; --su-chiaro: #fff;
+    --de-stijl-1: #000; --de-stijl-2: #000; --de-stijl-3: #000; --de-stijl-4: #000;
   }
   .comandi-barra, .nav, .pannello, .piedipagina, .percorso, .lettore { display: none !important; }
   .ingresso { border: 1px solid #000; }
