@@ -211,14 +211,13 @@ a { color: var(--blu); text-underline-offset: 3px; }
   text-decoration: none;
   color: var(--testo);
 }
-/* lo stemma e' nero: su fondo scuro non si vede, quindi lo si appoggia
-   su un riquadro chiaro invece di cambiarne il colore */
+/* lo stemma e' la versione bianca fornita dalla docente: si vede direttamente
+   sul prugna, non ha bisogno di essere riquadrato ne' invertito */
 .titolo-sito__logo {
   flex: none;
   width: auto;
-  height: 3.25rem;
-  padding: 0.4rem;
-  background: var(--testo);
+  height: 2.75rem;
+  object-fit: contain;
 }
 .titolo-sito__riga1 {
   display: block;
@@ -315,6 +314,9 @@ a { color: var(--blu); text-underline-offset: 3px; }
 .pannello.is-aperto { display: block; }
 
 .pannello__lista { display: grid; }
+
+/* sezione senza sottopagine: si dice, invece di generare una lista vuota */
+.pannello__vuoto { padding: var(--s-1) var(--s-2); color: var(--testo-tenue); font-size: 0.9rem; }
 
 .pannello__voce {
   display: block;
@@ -440,6 +442,10 @@ a { color: var(--blu); text-underline-offset: 3px; }
   margin-bottom: var(--s-6);
 }
 
+/* Ogni tasto e' un quadrato, che ci sia o no l'immagine: la griglia resta
+   una matrice regolare, come nei piani di Rietveld. */
+.ingresso { aspect-ratio: 1 / 1; }
+
 .ingresso {
   display: flex;
   flex-direction: column;
@@ -458,7 +464,8 @@ a { color: var(--blu); text-underline-offset: 3px; }
 .ingresso:nth-child(4n + 3) .ingresso__barra { background: var(--de-stijl-3); }
 .ingresso:nth-child(4n + 4) .ingresso__barra { background: var(--de-stijl-4); }
 
-.ingresso__testo { display: flex; flex-direction: column; gap: var(--s-2); padding: var(--s-3); flex: 1; }
+.ingresso__testo { display: flex; flex-direction: column; gap: var(--s-2); padding: var(--s-3); }
+
 .ingresso__numero {
   font-family: var(--font-tasti);
   font-size: 0.72rem;
@@ -474,25 +481,46 @@ a { color: var(--blu); text-underline-offset: 3px; }
   letter-spacing: -0.01em;
 }
 
-/* immagine di copertina, sotto la scritta. Dove non c'e' resta solo la
-   scritta: nessun riquadro vuoto, nessuno spazio prenotato a caso. */
-.ingresso__copertina { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--superficie-2); }
+/* Il posto della copertina c'e' sempre, anche quando l'immagine non e'
+   ancora arrivata: i nove tasti restano identici nella forma e la griglia
+   non cambiera' quando le copertine saranno inserite. */
+.ingresso__copertina {
+  display: block;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  object-fit: cover;
+  background: var(--superficie-2);
+}
+/* il segnaposto di una copertina che deve ancora arrivare */
+.ingresso__copertina--vuota { background: var(--superficie-2); }
 
-/* la Design Week occupa il tasto grande: e' il punto di forza del sito */
-.ingresso--grande { grid-column: span 2; grid-row: span 2; }
-.ingresso--grande .ingresso__nome { font-size: clamp(1.7rem, 1.1rem + 2.4vw, 3rem); }
-.ingresso--grande .ingresso__testo { padding: var(--s-4); }
-.ingresso--grande .ingresso__barra { height: 12px; background: var(--blu); }
-.ingresso--grande { background: var(--blu); border-color: var(--blu); }
-.ingresso--grande .ingresso__nome,
-.ingresso--grande .ingresso__numero { color: var(--su-chiaro); }
-.ingresso--grande:hover { border-color: var(--giallo); }
+/* Tutti i tasti hanno la stessa dimensione e la stessa forma quadrata.
+   Si distinguono solo per il colore. La Design Week usa il prugna profondo
+   del fondo: sulla griglia sembra un vuoto ritagliato, e resta leggibile
+   anche se il tasto perde il blu. */
+.ingresso--design { background: var(--sfondo); border-color: var(--bordo); }
+.ingresso--design .ingresso__nome { color: var(--testo); }
+.ingresso--design .ingresso__barra { background: var(--bordo); }
+.ingresso--design:hover { border-color: var(--giallo); }
 
-/* Orientamento e iscrizioni si legge subito */
-.ingresso--blu { background: var(--bordo); border-color: var(--bordo); }
-.ingresso--blu .ingresso__numero,
-.ingresso--blu .ingresso__nome { color: var(--su-chiaro); }
-.ingresso--blu .ingresso__barra { background: var(--giallo); }
+.ingresso--rilievo { background: var(--bordo); border-color: var(--bordo); }
+.ingresso--rilievo .ingresso__numero,
+.ingresso--rilievo .ingresso__nome { color: var(--su-chiaro); }
+.ingresso--rilievo .ingresso__barra { background: var(--giallo); }
+
+
+/* =========================================================================
+   12b. BANNER DI COPERTINA — immagine di apertura delle pagine interne
+   ========================================================================= */
+.banner { padding-bottom: var(--s-4); }
+.banner__immagine {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border: 2px solid var(--bordo-tenue);
+  background: var(--superficie-2);
+}
 
 
 /* =========================================================================
@@ -675,7 +703,6 @@ a { color: var(--blu); text-underline-offset: 3px; }
    ========================================================================= */
 @media (max-width: 68rem) {
   .ingressi { grid-template-columns: repeat(2, 1fr); }
-  .ingresso--grande { grid-column: span 2; grid-row: auto; }
 }
 
 @media (max-width: 64rem) {
@@ -713,8 +740,7 @@ a { color: var(--blu); text-underline-offset: 3px; }
 
 @media (max-width: 44rem) {
   .ingressi { grid-template-columns: 1fr; }
-  .ingresso--grande { grid-column: span 1; }
-  .titolo-sito__logo { height: 2.5rem; }
+  .titolo-sito__logo { height: 2rem; }
   .lettore { padding: 0; }
 }
 
