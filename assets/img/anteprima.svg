@@ -1,23 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Tecnico Sistema Moda — IIS Caterina da Siena, Milano">
-  <rect width="1200" height="630" fill="#f5efe6"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Tecnico Sistema Moda (ITAM) — Caterina da Siena · Milano">
+  <rect width="1200" height="630" fill="#fbf9f6"/>
 
-  <!-- griglia di riferimento: il passo base del sito, dichiarato e non decorato -->
-  <g stroke="#e2d6c4" stroke-width="1">
-    <path d="M0 150h1200M0 300h1200M0 450h1200"/>
-    <path d="M300 0v630M600 0v630M900 0v630"/>
+  <!-- griglia editoriale: le linee restano visibili -->
+  <g stroke="#ded8d0" stroke-width="1">
+    <path d="M80 120h1040M80 220h1040M80 320h1040M80 420h1040M80 520h1040"/>
+    <path d="M340 60v510M600 60v510M860 60v510"/>
   </g>
 
-  <!-- misura: filo di taglio e spessore di tessuto -->
-  <path d="M80 560h1040" stroke="#c9a97f" stroke-width="4"/>
-  <g stroke="#2b2019" stroke-width="2">
-    <path d="M80 60v500M1120 60v500"/>
-    <path d="M80 60h40M80 560h40M1120 60h-40M1120 560h-40"/>
+  <text x="80" y="105" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="22" letter-spacing="4" fill="#5a5651">IIS CATERINA DA SIENA DI MILANO</text>
+
+  <text x="80" y="290" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="86" font-weight="700" letter-spacing="-3" fill="#141414">Tecnico Sistema Moda</text>
+  <text x="80" y="380" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="86" font-weight="700" letter-spacing="-3" fill="#0033ff">(ITAM)</text>
+
+  <!-- una sola riga di colore guida -->
+  <rect x="80" y="450" width="320" height="10" fill="#0033ff"/>
+
+  <g font-family="Archivo, Helvetica, Arial, sans-serif" font-size="20" letter-spacing="2" fill="#5a5651">
+    <text x="80" y="530">DESIGN WEEK</text>
+    <text x="380" y="530">COLLABORAZIONI</text>
+    <text x="740" y="530">ORIENTAMENTO</text>
   </g>
-
-  <!-- testo -->
-  <text x="80" y="270" font-family="Helvetica, Arial, sans-serif" font-size="76" font-weight="700" fill="#2b2019">Tecnico Sistema Moda</text>
-  <text x="80" y="330" font-family="Helvetica, Arial, sans-serif" font-size="30" letter-spacing="3" fill="#6d5c4e">IIS CATERINA DA SIENA — MILANO</text>
-
-  <!-- una riga di colore d'azione: una sola, come nel sito -->
-  <rect x="80" y="370" width="240" height="8" fill="#a4553a"/>
 </svg>

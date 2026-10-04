@@ -1,8 +1,27 @@
+# ---------------------------------------------------------------------------
+# Materiali di lavoro: 3,27 GB di fotografie, video, cataloghi e file di
+# programma. Restano sul computer della docente e NON vengono pubblicati.
+#
+# Motivi:
+#  - il repository e' pubblico e non deve contenere 3 GB di materiali
+#  - diversi file appartengono a terzi (cataloghi di altre scuole, lavori
+#    di allievi, un video di agenzia stampa) e non vanno ripubblicati
+#  - i video di intervista superano il limite di 100 MB per file di GitHub
+#
+# Le pagine del sito restano da pubblicare: sono i .html, .css e .js.
+# ---------------------------------------------------------------------------
+materiali/
+
 # Documento di lavoro personale: non fa parte del sito.
-# Se lo tieni in questa cartella, non deve finire nel repository pubblico.
 soul.md
 
-# Se in futuro userai un editor con cartelle di sistema, ignorale qui.
+# File di programma e di lavoro, da non pubblicare mai.
+*.psd
+*.ai
+*.indd
+
+# File temporanei del sistema operativo e degli editor.
 Thumbs.db
 .DS_Store
 desktop.ini
+.~lock.*

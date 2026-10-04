@@ -1,12 +1,16 @@
 /* =========================================================================
-   TECNICO SISTEMA MODA — IIS Caterina da Siena, Milano
-   Stile: Dieter Rams in versione calda.
+   TECNICO SISTEMA MODA (ITAM) — CATERINA DA SIENA · MILANO
 
-   Ortografia  = Rams: griglia a passo 8px, angoli a zero, nessuna ombra,
-                 un solo colore che segnala un'azione, etichette maiuscole.
-   Atmosfera   = calda: fondo carta, testo marrone scuro, terracotta.
+   Direzione: catalogo contemporaneo di design tessile e moda.
+   Fondo bianco caldo, testo quasi nero, blu elettrico come colore guida.
+   Griglia editoriale, pulsanti rettangolari con bordi netti.
 
-   Tutti i valori visivi stanno in :root. Sotto, solo struttura.
+   Tema solo chiaro, di proposito: il fondo bianco caldo e il blu elettrico
+   sono l'identita' del sito, e una versione scura li tradirebbe. Lo stemma
+   dell'istituto e' nero: su fondo chiaro funziona, e non ha bisogno di essere
+   invertito.
+
+   Tutti i valori visivi stanno in :root.
    ========================================================================= */
 
 
@@ -14,52 +18,37 @@
    1. VARIABILI
    ========================================================================= */
 :root {
-  /* colori — contrasti verificati */
-  --sfondo: #f5efe6;           /* fondo carta */
-  --superficie: #fbf7f0;      /* pannelli, menu, card */
-  --superficie-2: #ece1d2;    /* fasce alternate */
-  --testo: #2b2019;            /* 13.9:1 su --sfondo */
-  --testo-tenue: #6d5c4e;      /* 5.6:1  su --sfondo */
-  --bordo: #e2d6c4;
-  --accento: #a4553a;          /* 5.3:1 con bianco, 4.7:1 come testo su fondo */
-  --accento-tasto: #ffffff;
-  --accento-chiaro: #c9a97f;   /* 2.0:1 — solo bordi e campiture, MAI testo */
+  /* colore — il blu e' l'unico colore guida */
+  --sfondo: #fbf9f6;         /* bianco caldo */
+  --superficie: #ffffff;
+  --campitura: #f2eee8;      /* campiture appena accennate */
+  --testo: #141414;           /* quasi nero — 17.5:1 sul fondo */
+  --testo-tenue: #5a5651;     /* 6.9:1 sul fondo */
+  --bordo: #ded8d0;           /* linee sottili, fra voci e paragrafi */
+  --bordo-netto: #141414;     /* bordi netti: pulsanti, riquadri, ingressi */
 
-  /* forma: rettilinea, senza effetto */
-  --r: 0px;
-  --bordo-larghezza: 1px;
+  --blu: #0033ff;             /* colore guida — 6.8:1 come testo, 7.2:1 con bianco */
+  --blu-scuro: #0021b3;       /* stato attivo del blu — 10.6:1 come testo */
+  --blu-tenue: #e8ecff;       /* campitura chiara, solo per campiture */
 
-  /* ritmo: passo base 8px */
+  /* griglia: passo base 8px */
   --s-1: 0.5rem;
   --s-2: 1rem;
   --s-3: 1.5rem;
   --s-4: 2rem;
   --s-5: 3rem;
-  --s-6: 5rem;
-  --s-7: 8rem;
+  --s-6: 4.5rem;
+  --s-7: 7rem;
 
-  /* tipografia: un solo carattere, un solo peso per gli accenti */
-  --font: "Helvetica Neue", Helvetica, Arial, "Segoe UI", system-ui, sans-serif;
-  --peso-titoli: 500;
-  --interlinea: 1.55;
+  /* tipografia: un solo carattere, tre voci */
+  --font: "Archivo", system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --peso-corpo: 400;
+  --peso-medio: 500;
+  --peso-forte: 700;
 
-  --larghezza: 76rem;
-  --larghezza-testo: 66ch;
-  --transizione: 100ms linear;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --sfondo: #171310;
-    --superficie: #201a15;
-    --superficie-2: #2a2219;
-    --testo: #f0e6da;
-    --testo-tenue: #b0a08f;
-    --bordo: #33291f;
-    --accento: #e3a184;          /* schiarito per mantenere il contrasto su fondo scuro */
-    --accento-tasto: #171310;
-    --accento-chiaro: #5c4534;
-  }
+  --larghezza: 84rem;
+  --larghezza-testo: 68ch;
+  --transizione: 120ms ease;
 }
 
 
@@ -83,13 +72,16 @@ html { scroll-behavior: smooth; }
 /* =========================================================================
    3. ACCESSIBILITA'
    ========================================================================= */
-:focus-visible { outline: 3px solid var(--accento); outline-offset: 2px; }
+:focus-visible {
+  outline: 3px solid var(--blu);
+  outline-offset: 2px;
+}
 
-/* etichetta funzionale: piccola, maiuscola, spaziata */
+/* etichetta editoriale: piccola, maiuscola, spaziata */
 .etichetta {
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  font-weight: var(--peso-medio);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--testo-tenue);
 }
@@ -108,11 +100,11 @@ html { scroll-behavior: smooth; }
   left: -9999px;
   top: 0;
   z-index: 100;
-  padding: var(--s-2) var(--s-3);
-  background: var(--accento);
-  color: var(--accento-tasto);
+  padding: var(--s-1) var(--s-2);
+  background: var(--blu);
+  color: #fff;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: var(--peso-medio);
 }
 .salta:focus { left: 0; }
 
@@ -123,25 +115,27 @@ html { scroll-behavior: smooth; }
 body {
   font-family: var(--font);
   font-size: 1.0625rem;
-  line-height: var(--interlinea);
+  line-height: 1.6;
   color: var(--testo);
   background: var(--sfondo);
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4 {
-  font-weight: var(--peso-titoli);
-  line-height: 1.2;
+  font-weight: var(--peso-forte);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
-h1 { font-size: clamp(1.9rem, 1.4rem + 2vw, 2.75rem); }
+/* il titolo corrente e' il segnale piu' forte della pagina */
+h1 { font-size: clamp(2rem, 1.3rem + 3vw, 3.6rem); }
 h2 { font-size: clamp(1.4rem, 1.2rem + 1vw, 1.9rem); }
 h3 { font-size: 1.15rem; }
 
 p { max-width: var(--larghezza-testo); }
 
-a { color: var(--accento); text-underline-offset: 3px; }
+a { color: var(--blu); text-underline-offset: 3px; }
 
 .container {
   width: min(100% - 2rem, var(--larghezza));
@@ -150,336 +144,545 @@ a { color: var(--accento); text-underline-offset: 3px; }
 
 
 /* =========================================================================
-   5. PULSANTE E LINK D'AZIONE
+   5. PULSANTI — rettangolari, bordi netti, stati evidenti
    ========================================================================= */
 .btn {
   display: inline-flex;
   align-items: center;
   gap: var(--s-1);
-  padding: var(--s-2) var(--s-3);
-  border: var(--bordo-larghezza) solid var(--accento);
-  background: var(--accento);
-  color: var(--accento-tasto);
-  font-weight: 500;
+  padding: 0.8rem 1.5rem;
+  border: 2px solid var(--blu);
+  border-radius: 0;
+  background: var(--blu);
+  color: #fff;
+  font-weight: var(--peso-medio);
+  font-size: 0.95rem;
   text-decoration: none;
   cursor: pointer;
-  transition: background var(--transizione), color var(--transizione);
+  transition: background var(--transizione), border-color var(--transizione), color var(--transizione);
 }
-.btn:hover { background: var(--testo); border-color: var(--testo); }
+.btn:hover { background: var(--blu-scuro); border-color: var(--blu-scuro); }
+.btn:active { background: #001a92; border-color: #001a92; }
 
-.btn--secondario {
-  background: transparent;
-  color: var(--testo);
-  border-color: var(--bordo);
-}
-.btn--secondario:hover { background: var(--superficie-2); border-color: var(--accento); }
+.btn--contorno { background: transparent; color: var(--testo); border-color: var(--bordo-netto); }
+.btn--contorno:hover { background: var(--bordo-netto); color: #fff; border-color: var(--bordo-netto); }
+
+.btn--invertito { background: #fff; color: var(--blu); border-color: #fff; }
+.btn--invertito:hover { background: transparent; color: #fff; border-color: #fff; }
 
 
 /* =========================================================================
-   6. HEADER
+   6. INTESTAZIONE — titolo su due livelli
    ========================================================================= */
-.header { border-bottom: var(--bordo-larghezza) solid var(--bordo); background: var(--sfondo); }
-.header__interno {
+.intestazione { border-bottom: var(--bordo-larghezza, 1px) solid var(--bordo-netto); }
+.intestazione__interno {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--s-2);
-  padding-block: var(--s-2);
+  gap: var(--s-3);
+  padding-block: var(--s-3);
 }
 
-.marca { text-decoration: none; color: var(--testo); display: flex; align-items: center; gap: var(--s-2); }
-.marca__testi { display: grid; gap: 2px; }
-.marca__nome { font-size: 1.05rem; font-weight: 700; line-height: 1.1; }
-.marca__sede {
-  font-size: 0.7rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.titolo-sito {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  text-decoration: none;
+  color: var(--testo);
+}
+.titolo-sito__logo { flex: none; width: auto; height: 3.25rem; }
+.titolo-sito__riga1 {
+  display: block;
+  font-size: clamp(1.05rem, 0.9rem + 0.7vw, 1.4rem);
+  font-weight: var(--peso-forte);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.titolo-sito__riga2 {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.78rem;
+  font-weight: var(--peso-medio);
+  letter-spacing: 0.04em;
   color: var(--testo-tenue);
 }
-
-/* Lo stemma e' il file ufficiale dell'istituto: PNG 448x300, nero su fondo
-   trasparente. Non viene ritoccato ne' ridisegnato, solo dimensionato. */
-.marca__logo {
-  flex: none;
-  width: auto;
-  height: 48px;
-}
-
-/* nero su nero non si vede: il logo e' monochrome, quindi basta invertirlo.
-   Nessun altro elemento del sito usa filter. */
-@media (prefers-color-scheme: dark) {
-  .marca__logo { filter: invert(1); }
-}
-
-/* bottone hamburger: visibile solo sotto i 64rem */
-.menu-btn {
-  display: none;
-  align-items: center;
-  gap: var(--s-1);
-  padding: var(--s-1) var(--s-2);
-  border: var(--bordo-larghezza) solid var(--bordo);
-  background: transparent;
-  cursor: pointer;
-}
-.menu-btn__barra { display: block; width: 20px; height: 2px; background: var(--testo); }
+.titolo-sito:hover .titolo-sito__riga1 { color: var(--blu); }
 
 
 /* =========================================================================
-   7. NAVIGAZIONE
+   7. BARRA DI NAVIGAZIONE
+   Nove voci in riga orizzontale sotto il titolo. Quando lo spazio non
+   basta si dispongono su due righe: si avvolgono, ma nessuna etichetta
+   viene ridotta o troncata.
    ========================================================================= */
-.nav__lista { display: flex; }
-.nav__voce { position: relative; }
+.barra { background: var(--superficie); }
 
-.nav__riga { display: flex; align-items: stretch; }
+.nav__lista { display: flex; flex-wrap: wrap; }
 
-.nav__voce-link {
-  display: block;
-  padding: var(--s-2);
-  color: var(--testo-tenue);
-  text-decoration: none;
-  white-space: nowrap;
-  border-bottom: 3px solid transparent;
-  transition: color var(--transizione);
+.nav__voce {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  border-right: 1px solid var(--bordo);
 }
-.nav__voce-link:hover { color: var(--testo); }
-.nav__voce-link[aria-current="page"] {
+.nav__voce:first-child { border-left: 1px solid var(--bordo); }
+
+/* il collegamento alla sezione: non apre nulla, porta alla pagina */
+.nav__voce-sezione {
+  display: flex;
+  align-items: center;
+  padding: var(--s-2) var(--s-3);
   color: var(--testo);
-  border-bottom-color: var(--accento);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: var(--peso-medio);
+  white-space: nowrap;
+  transition: background var(--transizione), color var(--transizione);
+}
+.nav__voce-sezione:hover { background: var(--bordo-netto); color: #fff; }
+.nav__voce-sezione[aria-current="true"] {
+  background: var(--blu);
+  color: #fff;
 }
 
-.nav__toggle {
-  width: 2rem;
+/* il comando che apre il sotto-menu: distinto dal collegamento */
+.nav__apri {
+  width: 2.25rem;
   border: 0;
+  border-left: 1px solid var(--bordo);
   background: transparent;
-  cursor: pointer;
   color: var(--testo-tenue);
+  cursor: pointer;
+  transition: background var(--transizione), color var(--transizione);
 }
-.nav__toggle::before {
+.nav__apri::before {
   content: "";
   display: block;
-  width: 8px; height: 8px;
+  width: 7px; height: 7px;
   margin: 0 auto;
-  border-right: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
-  transform: rotate(45deg) translate(-2px, -2px);
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
   transition: transform var(--transizione);
 }
-.nav__toggle[aria-expanded="true"]::before { transform: rotate(-135deg) translate(-2px, -2px); }
+.nav__apri:hover { background: var(--campitura); color: var(--testo); }
+.nav__apri[aria-expanded="true"] { background: var(--blu-tenue); color: var(--blu-scuro); }
+.nav__apri[aria-expanded="true"]::before { transform: translateY(2px) rotate(-135deg); }
 
-/* pannello a discesa */
-.menu {
+/* il pannello non si apre col passaggio del mouse: solo con un comando,
+   cosi' non serve inseguire la barra con il puntatore */
+.pannello {
   display: none;
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 30;
-  min-width: 17rem;
-  padding: var(--s-1) 0;
+  z-index: 40;
+  min-width: 22rem;
+  padding: var(--s-2);
   background: var(--superficie);
-  border: var(--bordo-larghezza) solid var(--bordo);
+  border: 2px solid var(--bordo-netto);
 }
-.menu.is-aperto { display: block; }
+.pannello.is-aperto { display: block; }
 
-.menu__lista { display: grid; }
+.pannello__lista { display: grid; }
 
-.menu__voce-link {
+.pannello__voce {
   display: block;
-  padding: var(--s-1) var(--s-2);
+  padding: 0.6rem var(--s-2);
+  border-left: 3px solid transparent;
   color: var(--testo);
   text-decoration: none;
-  font-size: 0.97rem;
+  font-size: 0.95rem;
 }
-.menu__voce-link:hover { background: var(--superficie-2); }
-.menu__voce-link[aria-current="page"] { color: var(--accento); font-weight: 500; }
+.pannello__voce:hover { background: var(--blu-tenue); border-left-color: var(--blu); }
+.pannello__voce[aria-current="page"] { border-left-color: var(--blu); font-weight: var(--peso-medio); }
 
-/* mega-menu dei settori: piu' colonne, senza riquadri */
-.menu--colonne { min-width: 52rem; padding: var(--s-3); }
-.menu__griglia { display: grid; gap: var(--s-4) var(--s-3); grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.menu__settore-titolo {
+
+/* =========================================================================
+   8. PANNELLO A COLONNE — Collaborazioni con le aziende
+   ========================================================================= */
+.pannello--colonne { min-width: 58rem; padding: var(--s-3); }
+.pannello__settori {
+  display: grid;
+  gap: var(--s-3) var(--s-4);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.pannello__settore-titolo {
   display: block;
   margin-bottom: var(--s-1);
+  padding-bottom: var(--s-1);
+  border-bottom: 1px solid var(--bordo);
   color: var(--testo-tenue);
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: 0.72rem;
+  font-weight: var(--peso-forte);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-decoration: none;
 }
-.menu__settore-titolo:hover { color: var(--accento); }
+.pannello__settore-titolo:hover { color: var(--blu); }
 
 
-/* -------------------------------------------------------------------------
-   Sotto i 64rem la navigazione diventa pannello e i sotto-menu ad accordion.
-   ------------------------------------------------------------------------- */
-@media (max-width: 63.99rem) {
-  .menu-btn { display: inline-flex; }
-  .marca__logo { height: 38px; }
+/* =========================================================================
+   9. GRUPPO CON FIGLIE — Orientamento e iscrizioni
+   Le due sottovoci di "Le notti del tecnico moda" restano dentro lo stesso
+   pannello: il riquadro e il rientro rendono evidente la dipendenza.
+   ========================================================================= */
+.pannello__gruppo { margin-bottom: var(--s-2); }
+.pannello__figlie {
+  margin: 2px 0 0 0;
+  padding-left: var(--s-2);
+  border-left: 3px solid var(--blu);
+}
+.pannello__voce-figlia { font-size: 0.9rem; padding-left: var(--s-2); }
 
-  .nav { display: none; border-top: var(--bordo-larghezza) solid var(--bordo); }
-  .nav.is-aperto { display: block; }
+/* "Orientamento e iscrizioni" resta individuabile anche senza aprire nulla */
+.nav__voce--rilevante .nav__voce-sezione { color: var(--blu); }
+.nav__voce--rilevante .nav__voce-sezione:hover { background: var(--blu); color: #fff; }
+.nav__voce--rilevante .nav__apri { color: var(--blu); }
 
-  .nav__lista { flex-direction: column; }
-  .nav__voce { border-bottom: var(--bordo-larghezza) solid var(--bordo); }
-  .nav__riga { justify-content: space-between; }
-  .nav__voce-link { flex: 1; border-bottom: 0; white-space: normal; text-align: left; }
-  .nav__voce-link[aria-current="page"] { border-bottom: 0; color: var(--accento); }
-  .nav__toggle { width: 3rem; height: auto; }
 
-  /* in accordion il pannello sta nel flusso, non è sovrapposto */
-  .menu {
-    position: static;
-    min-width: 0;
-    border: 0;
-    border-top: var(--bordo-larghezza) solid var(--bordo);
-    background: transparent;
-    padding: var(--s-1) 0 var(--s-2);
-  }
-  .menu--colonne { padding: var(--s-2) 0; }
-  .menu__griglia { grid-template-columns: 1fr; gap: var(--s-3); }
-  .menu__settore + .menu__settore { border-top: var(--bordo-larghezza) solid var(--bordo); padding-top: var(--s-2); }
+/* =========================================================================
+   10. COMANDO MENU E ACCESSO RAPIDO (schermi piccoli)
+   ========================================================================= */
+.comandi-barra { display: none; padding: var(--s-2) 0; }
+.menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  padding: 0.7rem 1rem;
+  border: 2px solid var(--bordo-netto);
+  border-radius: 0;
+  background: var(--superficie);
+  color: var(--testo);
+  font-weight: var(--peso-medio);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.menu-btn__righe { display: grid; gap: 3px; }
+.menu-btn__righe span { display: block; width: 16px; height: 2px; background: currentColor; }
+
+.accesso-rapido { display: none; }
+
+
+/* =========================================================================
+   11. PERCORSO
+   ========================================================================= */
+.percorso { border-bottom: 1px solid var(--bordo); background: var(--campitura); }
+.percorso__lista { display: flex; flex-wrap: wrap; align-items: center; gap: 0; padding-block: var(--s-1); }
+.percorso__lista li { display: flex; align-items: center; }
+.percorso__lista li + li::before { content: "/"; margin-inline: 0.4rem; color: var(--bordo-netto); }
+.percorso__lista a { color: var(--testo-tenue); text-decoration: none; font-size: 0.88rem; }
+.percorso__lista a:hover { color: var(--blu); text-decoration: underline; }
+.percorso__corrente { font-size: 0.88rem; color: var(--testo); font-weight: var(--peso-medio); }
+
+
+/* =========================================================================
+   12. PAGINA PRINCIPALE — composizione tipografica e nove ingressi
+   ========================================================================= */
+.composizione { padding-block: var(--s-6) var(--s-5); border-bottom: 1px solid var(--bordo); }
+.composizione__occhiello { margin-bottom: var(--s-3); }
+.composizione__titolo {
+  font-size: clamp(2.6rem, 1.2rem + 6.5vw, 6rem);
+  font-weight: var(--peso-forte);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  max-width: 18ch;
+}
+.composizione__titolo em {
+  font-style: normal;
+  color: var(--blu);
 }
 
-
-/* =========================================================================
-   8. PERCORSO (breadcrumb)
-   ========================================================================= */
-.percorso { border-bottom: var(--bordo-larghezza) solid var(--bordo); background: var(--superficie); }
-.percorso__lista { display: flex; flex-wrap: wrap; gap: var(--s-1); padding-block: var(--s-1); }
-.percorso__lista li::after { content: "/"; margin-left: var(--s-1); color: var(--bordo); }
-.percorso__lista li:last-child::after { content: ""; }
-.percorso__lista a { color: var(--testo-tenue); text-decoration: none; font-size: 0.9rem; }
-.percorso__lista a:hover { color: var(--testo); text-decoration: underline; }
-.percorso__corrente { font-size: 0.9rem; color: var(--testo); }
-
-
-/* =========================================================================
-   9. INTESTAZIONE DI PAGINA
-   ========================================================================= */
-.intestazione { padding-block: var(--s-5) var(--s-4); }
-.intestazione__occhiello {
-  margin-bottom: var(--s-1);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accento);
+/* griglia editoriale: le celle si toccano e la linea resta visibile */
+.ingressi {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--bordo-netto);
+  border: 1px solid var(--bordo-netto);
+  border-top: 0;
 }
-.intestazione__testo { margin-top: var(--s-2); max-width: 46ch; color: var(--testo-tenue); }
+
+.ingresso {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--s-5);
+  min-height: 9rem;
+  padding: var(--s-3);
+  background: var(--superficie);
+  color: var(--testo);
+  text-decoration: none;
+  transition: background var(--transizione), color var(--transizione);
+}
+.ingresso__numero {
+  font-size: 0.72rem;
+  font-weight: var(--peso-medio);
+  letter-spacing: 0.1em;
+  color: var(--testo-tenue);
+}
+.ingresso__nome {
+  font-size: 1.15rem;
+  font-weight: var(--peso-forte);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.ingresso:hover { background: var(--bordo-netto); color: #fff; }
+.ingresso:hover .ingresso__numero { color: #fff; }
+
+/* la Design Week occupa il riquadro grande: e' il punto di forza del sito */
+.ingresso--grande { grid-column: span 2; grid-row: span 2; min-height: 18.5rem; }
+.ingresso--grande .ingresso__nome { font-size: clamp(1.6rem, 1.1rem + 2vw, 2.6rem); }
+
+/* Orientamento e iscrizioni si legge subito: fondo blu */
+.ingresso--blu { background: var(--blu); color: #fff; }
+.ingresso--blu .ingresso__numero { color: #fff; }
+.ingresso--blu:hover { background: var(--blu-scuro); }
 
 
 /* =========================================================================
-   10. INDICE DI SEZIONE
-   Elenco di link alla struttura: nessuna scheda, nessuna decorazione.
+   13. INTESTAZIONE DI PAGINA INTERNA
+   ========================================================================= */
+.titolo-pagina { padding-block: var(--s-5) var(--s-4); }
+.titolo-pagina__occhiello { margin-bottom: var(--s-2); color: var(--blu); }
+.titolo-pagina__testo { margin-top: var(--s-2); max-width: 58ch; color: var(--testo-tenue); }
+
+
+/* =========================================================================
+   14. ELENCO DI SEZIONE — solo collegamenti, nessun testo promozionale
    ========================================================================= */
 .sezione { padding-block: var(--s-5); }
-.sezione--tinta { background: var(--superficie-2); }
-.sezione + .sezione { border-top: var(--bordo-larghezza) solid var(--bordo); }
 
-.indice { border-top: var(--bordo-larghezza) solid var(--bordo); }
-.indice__voce { border-bottom: var(--bordo-larghezza) solid var(--bordo); }
-.indice__voce:last-child { border-bottom: 0; }
-
-.indice__link {
+.elenco { border-top: 2px solid var(--bordo-netto); }
+.elenco__voce { border-bottom: 1px solid var(--bordo); }
+.elenco__link {
   display: flex;
   align-items: baseline;
   gap: var(--s-2);
   padding: var(--s-2) var(--s-1);
   color: var(--testo);
   text-decoration: none;
-  transition: background var(--transizione);
+  transition: background var(--transizione), padding-left var(--transizione);
 }
-.indice__link:hover { background: var(--superficie-2); }
-
-.indice__numero {
-  font-size: 0.8rem;
-  letter-spacing: 0.06em;
-  color: var(--testo-tenue);
+.elenco__link:hover { background: var(--blu-tenue); padding-left: var(--s-3); }
+.elenco__numero {
   min-width: 2.5rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--testo-tenue);
   font-variant-numeric: tabular-nums;
 }
-.indice__titolo { flex: 1; }
+.elenco__titolo { flex: 1; font-size: 1.1rem; font-weight: var(--peso-medio); }
+.elenco__freccia { color: var(--blu); }
+
+/* settore: le aziende stanno sotto il proprio settore */
+.gruppo { padding-block: var(--s-3); border-bottom: 1px solid var(--bordo); }
+.gruppo__titolo { margin-bottom: var(--s-1); }
+.gruppo__titolo a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  color: var(--testo);
+  font-size: 1.1rem;
+  font-weight: var(--peso-medio);
+  text-decoration: none;
+}
+.gruppo__titolo a:hover { color: var(--blu); }
+.gruppo__figlie { display: grid; gap: 2px; padding-left: var(--s-3); border-left: 2px solid var(--blu); }
 
 
 /* =========================================================================
-   11. SEGNAPOSTO
+   15. SCHEDA PAGINA — predisposta per i materiali, senza spazi vuoti
    ========================================================================= */
-.vuoto {
-  padding: var(--s-4);
-  border: var(--bordo-larghezza) dashed var(--bordo);
-  background: var(--superficie);
-  max-width: 44rem;
-}
-.vuoto__etichetta {
+.scheda { padding: var(--s-3); border: 1px dashed var(--bordo-netto); background: var(--superficie); max-width: 46rem; }
+.scheda__etichetta {
   margin-bottom: var(--s-1);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: 0.7rem;
+  font-weight: var(--peso-medio);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--testo-tenue);
 }
-.vuoto p { color: var(--testo-tenue); }
+.scheda p { color: var(--testo-tenue); }
+
+/* appunti del docente, in attesa di passaggio al sito */
+.appunti {
+  padding: var(--s-2) var(--s-3);
+  border-left: 3px solid var(--blu);
+  background: var(--blu-tenue);
+  font-size: 0.9rem;
+}
+.appunti p { max-width: none; }
+.appunti strong { display: block; margin-bottom: 2px; }
 
 
 /* =========================================================================
-   12. GRIGLIA A DUE COLONNE
-   Non serve alla struttura: e' a disposizione per quando le pagine
-   accoglieranno testo, foto e didascalie.
+   16. GALLERIA VIDEO INTERVISTE — modello, senza schede vuote
    ========================================================================= */
-.griglia { display: grid; gap: var(--s-4); }
-.griglia--2 { grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+.galleria { display: grid; gap: var(--s-3); grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); }
+
+.scheda-video { display: flex; flex-direction: column; border: 1px solid var(--bordo-netto); background: var(--superficie); }
+.scheda-video__copertina { position: relative; aspect-ratio: 16 / 9; background: var(--campitura); }
+.scheda-video__copertina img { width: 100%; height: 100%; object-fit: cover; }
+
+.scheda-video__gioca {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 4rem; height: 4rem;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--blu);
+  color: #fff;
+  cursor: pointer;
+}
+.scheda-video__gioca:hover { background: var(--blu-scuro); }
+
+.scheda-video__testi { padding: var(--s-2); }
+.scheda-video__nome { font-weight: var(--peso-medio); }
+.scheda-video__ruolo { display: block; margin-top: 2px; font-size: 0.82rem; color: var(--testo-tenue); }
+.scheda-video__descrizione { margin-top: var(--s-1); font-size: 0.92rem; color: var(--testo-tenue); }
+
+.nessuna-scheda {
+  padding: var(--s-3);
+  border: 1px dashed var(--bordo-netto);
+  color: var(--testo-tenue);
+  max-width: 46rem;
+}
 
 
 /* =========================================================================
-   13. GRUPPO CON SOTTO-ELENCO
-   Serve per le voci che hanno pagine figlie (per esempio un settore).
+   17. LETTORE VIDEO — finestra sovrapposta, mai riproduzione automatica
    ========================================================================= */
-.gruppo { border-top: var(--bordo-larghezza) solid var(--bordo); padding-block: var(--s-3); }
-.gruppo:first-of-type { border-top: 0; }
-.gruppo__titolo { margin-bottom: var(--s-1); }
-.gruppo__titolo a { color: var(--testo); text-decoration: none; }
-.gruppo__titolo a:hover { color: var(--accento); }
+.lettore {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: var(--s-2);
+  background: rgb(20 20 20 / 85%);
+}
+.lettore[hidden] { display: none; }
+
+.lettore__finestra {
+  width: min(100%, 60rem);
+  background: var(--superficie);
+  border: 2px solid var(--blu);
+}
+.lettore__titolo { font-weight: var(--peso-medio); }
+.lettore__barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  padding: var(--s-2);
+  border-bottom: 1px solid var(--bordo);
+}
+.lettore__chiudi {
+  padding: 0.4rem 0.9rem;
+  border: 2px solid var(--bordo-netto);
+  background: transparent;
+  color: var(--testo);
+  font-weight: var(--peso-medio);
+  cursor: pointer;
+}
+.lettore__chiudi:hover { background: var(--bordo-netto); color: #fff; }
+.lettore__contenuto { padding: var(--s-2); }
+.lettore__contenuto iframe,
+.lettore__contenuto video { width: 100%; aspect-ratio: 16 / 9; border: 0; background: #000; }
 
 
 /* =========================================================================
-   13. BANDIERA DI CHIUSURA
+   18. PIECIPAGINA
    ========================================================================= */
-.bandiera { padding-block: var(--s-5); background: var(--superficie-2); border-top: var(--bordo-larghezza) solid var(--bordo); }
-.bandiera__testo { max-width: 52ch; }
-
-
-/* =========================================================================
-   14. FOOTER
-   ========================================================================= */
-.footer { padding-block: var(--s-4); background: var(--superficie); border-top: var(--bordo-larghezza) solid var(--bordo); }
-.footer__interno {
+.piedipagina { padding-block: var(--s-4); background: var(--superficie); border-top: 2px solid var(--bordo-netto); }
+.piedipagina__interno {
   display: grid;
   gap: var(--s-3);
   grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
   font-size: 0.9rem;
 }
-.footer__titolo { margin-bottom: var(--s-1); color: var(--testo); }
-.footer__lista { display: grid; gap: 2px; }
-.footer__lista a { color: var(--testo-tenue); text-decoration: none; }
-.footer__lista a:hover { color: var(--testo); text-decoration: underline; }
-.footer p { color: var(--testo-tenue); }
+.piedipagina__titolo { margin-bottom: var(--s-1); font-weight: var(--peso-medio); }
+.piedipagina p { color: var(--testo-tenue); }
+.piedipagina__lista { display: grid; gap: 2px; }
+.piedipagina__lista a { color: var(--testo-tenue); text-decoration: none; }
+.piedipagina__lista a:hover { color: var(--blu); text-decoration: underline; }
 
 
 /* =========================================================================
-   15. STAMPA
+   19. SCHERM PICCOLI
+   La barra orizzontale diventa un pannello a fisarmonica. Le nove voci
+   restano leggibili per intero, con bersagli comodi da toccare.
+   ========================================================================= */
+@media (max-width: 68rem) {
+  .ingressi { grid-template-columns: repeat(2, 1fr); }
+  .ingresso--grande { grid-column: span 2; grid-row: auto; min-height: 12rem; }
+}
+
+@media (max-width: 64rem) {
+  /* comando menu e accesso rapido */
+  .comandi-barra { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); }
+  .accesso-rapido {
+    display: inline-flex;
+    padding: 0.7rem 1rem;
+    background: var(--blu);
+    color: #fff;
+    font-weight: var(--peso-medio);
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  .accesso-rapido:hover { background: var(--blu-scuro); }
+
+  .barra { border-bottom: 2px solid var(--bordo-netto); background: var(--superficie); }
+  .nav { display: none; border-top: 1px solid var(--bordo); }
+  .nav.is-aperto { display: block; }
+
+  .nav__lista { flex-direction: column; }
+  .nav__voce { border-right: 0; border-bottom: 1px solid var(--bordo); }
+  .nav__voce:first-child { border-left: 0; }
+  .nav__voce:last-child { border-bottom: 0; }
+  /* min-width: 0 permette all'etichetta di scendere sotto la propria
+     larghezza minima: senza, "Visite a musei e visite aziendali" su un
+     telefono da 375px spingerebbe la pagina lateralmente. */
+  .nav__voce-sezione { flex: 1; min-width: 0; font-size: 1.05rem; padding: var(--s-2); white-space: normal; }
+  .nav__apri { width: 3.25rem; flex: none; }
+
+  /* in fisarmonica il pannello sta nel flusso, non e' sovrapposto */
+  .pannello,
+  .pannello--colonne {
+    position: static;
+    min-width: 0;
+    padding: 0 var(--s-2) var(--s-2);
+    border: 0;
+    border-top: 1px solid var(--bordo);
+    background: var(--campitura);
+  }
+  .pannello__settori { grid-template-columns: 1fr; gap: var(--s-2); }
+  .pannello__settore + .pannello__settore { padding-top: var(--s-2); border-top: 1px solid var(--bordo); }
+  .pannello__voce { padding-block: 0.8rem; }
+}
+
+@media (max-width: 44rem) {
+  .ingressi { grid-template-columns: 1fr; }
+  .ingresso--grande { grid-column: span 1; }
+  .titolo-sito__logo { height: 2.5rem; }
+  .lettore { padding: 0; }
+}
+
+
+/* =========================================================================
+   20. STAMPA
    ========================================================================= */
 @media print {
   :root {
-    --sfondo: #ffffff;
-    --superficie: #ffffff;
-    --superficie-2: #ffffff;
-    --testo: #000000;
-    --testo-tenue: #333333;
-    --bordo: #cccccc;
-    --accento: #000000;
-    --accento-chiaro: #cccccc;
+    --sfondo: #fff; --superficie: #fff; --campitura: #fff;
+    --testo: #000; --testo-tenue: #333; --bordo: #ccc; --bordo-netto: #000;
+    --blu: #000; --blu-tenue: #fff;
   }
-  .header, .footer, .percorso, .menu-btn, .vuoto__etichetta { display: none !important; }
-  .menu { display: none !important; }
-  .vuoto { border: var(--bordo-larghezza) solid var(--bordo); }
-  .indice__link { padding-block: var(--s-1); }
+  .comandi-barra, .nav, .pannello, .piedipagina, .percorso, .lettore { display: none !important; }
+  .ingresso { border: 1px solid #000; }
+  .sezione, .titolo-pagina, .composizione { padding-block: var(--s-3); }
 }
