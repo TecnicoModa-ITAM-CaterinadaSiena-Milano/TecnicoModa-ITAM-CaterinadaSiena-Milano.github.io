@@ -542,6 +542,74 @@ a { color: var(--blu); text-underline-offset: 3px; }
 /* Se il film non parte resta il primo fotogramma, non un buco nero. */
 .ciclo__film:not([src]) { display: none; }
 
+/* Le tematiche e i riquadri in attesa: stessa forma, cosi' la griglia non
+   cambia quando le immagini arrivano. */
+.temi {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: var(--s-3);
+}
+.temi--uno { grid-template-columns: minmax(0, 1fr); }
+
+.tema {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  margin: 0;
+  padding: var(--s-3);
+  background: var(--superficie);
+  border: 2px solid var(--bordo-tenue);
+}
+.tema--attesa { border-style: dashed; }
+.tema__titolo {
+  margin: 0;
+  font-family: var(--font-tasti);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--testo);
+}
+.tema__sotto { margin: 0; color: var(--giallo); font-size: 0.9rem; }
+.tema__immagini { display: grid; gap: var(--s-2); }
+.tema__immagini img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--bordo-tenue);
+  background: var(--superficie-2);
+}
+.tema__immagini--vuota {
+  place-items: center;
+  min-height: 12rem;
+  padding: var(--s-3);
+  background: var(--superficie-2);
+}
+
+/* Il posto del corto: stesso riquadro, con la scritta al posto del film. */
+.corto { margin: 0; }
+.corto__schermo {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 9;
+  padding: var(--s-4);
+  background: var(--superficie-2);
+  border: 2px dashed var(--bordo-tenue);
+}
+.corto__schermo video { display: block; width: 100%; height: auto; background: #000; }
+.corto__avviso {
+  max-width: 46ch;
+  margin: 0;
+  text-align: center;
+  color: var(--testo-tenue);
+  font-size: 0.95rem;
+}
+.corto__didascalia {
+  margin-top: var(--s-2);
+  font-family: var(--font-tasti);
+  font-size: 1.05rem;
+  color: var(--testo);
+}
+
 .banner { padding-bottom: var(--s-4); }
 /* La copertina non viene mai ritagliata e non viene allargata oltre la sua
    misura: una locandina verticale resta una locandina stretta e centrata,
