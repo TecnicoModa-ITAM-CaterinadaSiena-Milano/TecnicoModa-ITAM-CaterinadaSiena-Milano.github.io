@@ -449,7 +449,7 @@ a { color: var(--blu); text-underline-offset: 3px; }
 
 .ingressi {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--s-3);
   margin-bottom: var(--s-6);
 }
@@ -641,6 +641,7 @@ a { color: var(--blu); text-underline-offset: 3px; }
   border: 2px dashed var(--bordo-tenue);
 }
 .corto__schermo video { display: block; width: 100%; height: auto; background: #000; }
+.corto__film { max-height: 62vh; }
 .corto__avviso {
   max-width: 46ch;
   margin: 0;
@@ -661,6 +662,37 @@ a { color: var(--blu); text-underline-offset: 3px; }
   color: var(--testo-tenue);
   cursor: default;
 }
+
+/* Pannello di un raggruppamento: riquadri grandi, uno per sezione.
+   Elencare qui anche tutto quello che c'e' dentro ogni sezione renderebbe
+   il pannello illeggibile: dentro Formazione Scuola Lavoro ci sono oltre
+   sessanta collegamenti, e vanno letti scendendo di livello. */
+.pannello--gruppo { min-width: min(38rem, 90vw); }
+.gruppo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: var(--s-2);
+}
+.gruppo__voce {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2);
+  min-height: 4.5rem;
+  padding: var(--s-3);
+  color: var(--testo);
+  background: var(--superficie);
+  border: 2px solid var(--bordo-tenue);
+  font-family: var(--font-tasti);
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.15;
+  text-decoration: none;
+  transition: border-color var(--transizione), background var(--transizione);
+}
+.gruppo__voce:hover { background: var(--superficie-2); border-color: var(--giallo); }
+.gruppo__freccia { flex: none; color: var(--bordo); font-size: 1.2rem; }
+.gruppo__voce:hover .gruppo__freccia { color: var(--giallo); }
 
 .banner { padding-bottom: var(--s-4); }
 /* La copertina non viene mai ritagliata e non viene allargata oltre la sua
@@ -863,9 +895,6 @@ a { color: var(--blu); text-underline-offset: 3px; }
    ========================================================================= */
 /* I sei tasti stanno su una riga sola sui monitor larghi. Sotto i 76rem
    non ci starebbero: passano a tre per riga, poi a due, poi a uno. */
-@media (max-width: 76rem) {
-  .ingressi { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
 
 @media (max-width: 68rem) {
   .ingressi { grid-template-columns: repeat(2, 1fr); }
