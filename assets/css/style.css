@@ -548,6 +548,9 @@ a { color: var(--blu); text-underline-offset: 3px; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
   gap: var(--s-3);
+  /* ogni scheda alta quanto le sue immagini: senza, una fotografia
+     verticale costringe la vicina a lasciare un vuoto sotto. */
+  align-items: start;
 }
 .temi--uno { grid-template-columns: minmax(0, 1fr); }
 
