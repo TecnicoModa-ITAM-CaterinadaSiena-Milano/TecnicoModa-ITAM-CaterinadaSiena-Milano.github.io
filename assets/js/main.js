@@ -12,6 +12,21 @@
    ========================================================================= */
 
 /* ---------------------------------------------------------------------
+   0. ACCESSO
+   La pagina iniziale chiede la password. Se si arriva su una pagina
+   interna senza averla inserita, si torna li'. Non e' una protezione
+   vera (i file sono pubblici), serve per l'anteprima.
+   --------------------------------------------------------------------- */
+function initAccesso() {
+  /* l'indirizzo della pagina iniziale arriva dalla pagina stessa: da una
+     sottocartella non puo' essere sempre './index.html' */
+  const gate = document.body.dataset.gate;
+  if (!gate) return;
+  if (sessionStorage.getItem('tsm-accesso-approvato') === '1') return;
+  location.replace(gate);
+}
+
+/* ---------------------------------------------------------------------
    1. BARRA DI NAVIGAZIONE (schermi piccoli)
    --------------------------------------------------------------------- */
 function initBarra() {
@@ -288,6 +303,7 @@ function initCaroselli() {
 /* ---------------------------------------------------------------------
    AVVIO
    --------------------------------------------------------------------- */
+initAccesso();
 initBarra();
 initPannelli();
 initGalleria();
