@@ -449,7 +449,7 @@ a { color: var(--blu); text-underline-offset: 3px; }
 
 .ingressi {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: var(--s-3);
   margin-bottom: var(--s-6);
 }
@@ -655,6 +655,13 @@ a { color: var(--blu); text-underline-offset: 3px; }
   color: var(--testo);
 }
 
+/* Voce di raggruppamento (Progetti): non e' un collegamento, e' solo
+   l'etichetta del comando che apre il menu. */
+.nav__voce-sezione--gruppo {
+  color: var(--testo-tenue);
+  cursor: default;
+}
+
 .banner { padding-bottom: var(--s-4); }
 /* La copertina non viene mai ritagliata e non viene allargata oltre la sua
    misura: una locandina verticale resta una locandina stretta e centrata,
@@ -854,6 +861,12 @@ a { color: var(--blu); text-underline-offset: 3px; }
 /* =========================================================================
    19. SCHERMI PICCOLI
    ========================================================================= */
+/* I sei tasti stanno su una riga sola sui monitor larghi. Sotto i 76rem
+   non ci starebbero: passano a tre per riga, poi a due, poi a uno. */
+@media (max-width: 76rem) {
+  .ingressi { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
 @media (max-width: 68rem) {
   .ingressi { grid-template-columns: repeat(2, 1fr); }
 }
