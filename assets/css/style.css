@@ -589,6 +589,15 @@ a { color: var(--blu); text-underline-offset: 3px; }
   border: 1px solid var(--bordo-tenue);
   background: var(--superficie-2);
 }
+/* Un film girato col telefono resta verticale. Senza questo misuramento
+   occuperebbe una fascia altissima e romperebbe il passo delle altre
+   scene della galleria. */
+.carousel__film {
+  width: auto;
+  max-width: 100%;
+  max-height: 70vh;
+  margin-inline: auto;
+}
 .carousel__comandi {
   display: flex;
   align-items: center;
