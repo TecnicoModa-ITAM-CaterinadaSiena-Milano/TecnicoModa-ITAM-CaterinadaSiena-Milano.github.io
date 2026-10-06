@@ -14,7 +14,7 @@ materiali/
 
 # Le copertine originali, grandi e pesanti: nel sito entrano gia' ridotte
 # dentro assets/img/copertine/.
-Immagini di copertina sezioni e sottosezioni/
+immagini-di-copertina/
 
 # Documenti sciolti depositati nella cartella del sito.
 *.pdf
