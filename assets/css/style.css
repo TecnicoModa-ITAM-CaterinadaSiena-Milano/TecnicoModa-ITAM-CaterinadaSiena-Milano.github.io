@@ -599,14 +599,17 @@ a { color: var(--blu); text-underline-offset: 3px; }
   border: 1px solid var(--bordo-tenue);
   background: var(--superficie-2);
 }
-/* Un film girato col telefono resta verticale. Senza questo misuramento
-   occuperebbe una fascia altissima e romperebbe il passo delle altre
-   scene della galleria. */
+/* Un film girato col telefono resta verticale. Con width:100% e height:auto il
+   film prende la sua forma: in orizzontale occupa tutta la colonna, in
+   verticale si ferma al tetto e la larghezza si ricalcola da sola, senza
+   stirare e senza lasciare bande scure. */
 .carousel__film {
-  width: auto;
-  max-width: 100%;
+  width: 100%;
+  height: auto;
   max-height: 70vh;
+  object-fit: contain;
   margin-inline: auto;
+  background: none;
 }
 .carousel__comandi {
   display: flex;
@@ -659,8 +662,18 @@ a { color: var(--blu); text-underline-offset: 3px; }
   background: var(--superficie-2);
   border: 2px dashed var(--bordo-tenue);
 }
-.corto__schermo video { display: block; width: 100%; height: auto; background: #000; }
-.corto__film { max-height: 62vh; }
+/* Con il film dentro il riquadro prende la forma del film. Senza questo
+   l'altezza fissa e il padding lasciano una banda scura sotto il film e una
+   ai lati, perche' il film e' piu' basso del riquadro. */
+.corto__schermo--film {
+  aspect-ratio: auto;
+  padding: 0;
+  background: none;
+}
+.corto__schermo video { display: block; width: 100%; height: auto; background: none; }
+/* Il film non puo' essere piu' alto dello schermo: con height:auto basta un
+   tetto, la larghezza si riadatta e resta la proporzione. */
+.corto__schermo--film .corto__film { max-height: 80vh; }
 .corto__avviso {
   max-width: 46ch;
   margin: 0;
