@@ -539,8 +539,18 @@ a { color: var(--blu); text-underline-offset: 3px; }
   border: 2px solid var(--bordo-tenue);
   background: var(--superficie-2);
 }
-/* Se il film non parte resta il primo fotogramma, non un buco nero. */
-.ciclo__film:not([src]) { display: none; }
+/* Il film del ciclo viene scritto solo quando il file c'e' davvero, quindi
+   non serve nessuna regione per nascondere un riquadro vuoto. La c'era, e
+   nascondeva i film che hanno il file dentro <source> invece che
+   nell'attributo src: il film non si vedeva affatto. */
+
+/* Il film che sta fra il titolo e la descrizione: niente cornice e niente
+   sfondo, deve sembrare una fotografia della pagina e non un riquadro. */
+.ciclo--titolo { margin: var(--s-4) 0; }
+.ciclo--titolo .ciclo__film {
+  border: 0;
+  background: none;
+}
 
 /* Le tematiche e i riquadri in attesa: stessa forma, cosi' la griglia non
    cambia quando le immagini arrivano. */

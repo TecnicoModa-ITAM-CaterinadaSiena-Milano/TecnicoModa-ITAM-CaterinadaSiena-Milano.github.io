@@ -221,6 +221,17 @@ function initCicli() {
     }
   };
 
+  /* Chi apre un link da WhatsApp o dal browser del telefono atterra in una
+     scheda che e' ancora in secondo piano: li e il browser non fanno partire
+     nessun film e l'avvio automatico viene rifiutato. Quando la scheda torna
+     visibile, o appena la persona tocca qualcosa, si riprova. */
+  const riprova = () => {
+    if (riduzione.matches) return;
+    for (const film of cicli) {
+      if (film.paused) film.play().catch(() => {});
+    }
+  };
+
   cicli.forEach((film) => {
     if (!riduzione.matches) film.play().catch(() => {});
     riduzione.addEventListener?.('change', () => applica(film));
@@ -240,6 +251,11 @@ function initCicli() {
     );
     osserva.observe(film);
   });
+
+  document.addEventListener('visibilitychange', riprova);
+  window.addEventListener('pageshow', riprova);
+  window.addEventListener('pointerdown', riprova, { once: true });
+  window.addEventListener('keydown', riprova, { once: true });
 }
 
 
