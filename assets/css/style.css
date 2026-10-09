@@ -451,14 +451,34 @@ a { color: var(--blu); text-underline-offset: 3px; }
    ========================================================================= */
 .composizione { padding-block: var(--s-6) var(--s-5); }
 .composizione__occhiello { margin-bottom: var(--s-3); }
+/* La scritta grande e' anche un tasto: porta alla pagina Sistema Moda 10.0.
+   Resta sempre su una riga sola. Per questo il corpo non va a capo e la misura
+   segue lo schermo con un margine: il testo occupa circa 14,5 corpi, e 5,8 per cento della larghezza lo tengono dentro la colonna anche sul telefono. */
 .composizione__titolo {
-  font-size: clamp(2.6rem, 1.2rem + 6.5vw, 6rem);
+  font-size: clamp(1.1rem, 5.8vw, 5.4rem);
   font-weight: 800;
   line-height: 0.94;
   letter-spacing: -0.03em;
-  max-width: 18ch;
+  white-space: nowrap;
 }
 .composizione__titolo em { font-style: normal; color: var(--bordo); }
+.composizione__tasto {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transizione);
+}
+.composizione__tasto:hover { color: var(--bordo-chiaro); }
+.composizione__tasto:focus-visible {
+  outline: 3px solid var(--giallo);
+  outline-offset: 0.2em;
+}
+.composizione__sottotitolo {
+  margin-top: var(--s-3);
+  max-width: 34ch;
+  font-size: clamp(1rem, 0.85rem + 0.5vw, 1.25rem);
+  line-height: 1.35;
+  color: var(--testo-tenue);
+}
 
 .ingressi {
   display: grid;
@@ -575,7 +595,11 @@ a { color: var(--blu); text-underline-offset: 3px; }
      verticale costringe la vicina a lasciare un vuoto sotto. */
   align-items: start;
 }
-.temi--uno { grid-template-columns: minmax(0, 1fr); }
+/* Una galleria sola, senza le altre accanto, si prenderebbe tutta la colonna
+   e le sue fotografie diventerebbero enormi: una verticale alta 1600 px
+   riempirebbe lo schermo. La si tiene alla misura di una cella, come
+   quando le gallerie sono piu' di una. */
+.temi--uno { grid-template-columns: minmax(0, 22rem); justify-content: start; }
 
 .tema {
   display: flex;
