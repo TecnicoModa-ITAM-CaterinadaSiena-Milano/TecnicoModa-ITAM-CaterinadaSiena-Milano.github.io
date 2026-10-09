@@ -1057,7 +1057,109 @@ a { color: var(--blu); text-underline-offset: 3px; }
 }
 
 /* =========================================================================
-   20. STAMPA
+   20. TESTO GIUSTIFICATO
+   -------------------------------------------------------------------------
+   Il testo che si legge come un discorso va giustificato: i due bordi diventano
+   due linee rette invece di due linee a denti di sega, e la pagina resta
+   ferma mentre si scorre.
+
+   La larghezza della colonna si adatta da sola (vedi .sezione e
+   --larghezza-testo): quello che si deve aggiungere e' la sillabazione.
+   Senza, su una colonna stretta — il telefono — il testo giustificato apre dei
+   vuoti enormi fra una parola e l'altra, e il difetto si vede subito. Con la
+   sillabazione le parole si spezzano solo quando serve davvero.
+
+   La sillabazione funziona perche' le pagine hanno lang="it": e' la lingua
+   dichiarata che dice al browser quali regole usare.
+   ========================================================================= */
+.sezione p,
+.sezione li,
+.sezione dd,
+.sezione blockquote {
+  text-align: justify;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  text-wrap: pretty;
+}
+
+/* Elenchi di voci: se restano larghi quanto la pagina, il testo giustificato
+   avrebbe righe troppo lunghe da leggere. Prendono la stessa misura dei
+   paragrafi. Gli elenchi con una classe (le chiavi, i riquadri, il percorso di
+   navigazione) restano invece larghi quanto la pagina. */
+.sezione ul:not([class]),
+.sezione ol:not([class]),
+.sezione dl:not([class]) {
+  max-width: var(--larghezza-testo);
+}
+
+/* Quello che non e' un discorso non si giustifica: i titoli hanno una riga
+   sola, le didascalie sono brevi, e dentro i riquadri con bordo la
+   giustificazione aprirebbe buchi strani. */
+.sezione h1,
+.sezione h2,
+.sezione h3,
+.sezione h4,
+.sezione figcaption,
+.sezione .tema__titolo,
+.sezione .tema__sotto,
+.sezione .carousel__conta,
+.sezione .scheda p,
+.sezione .scheda li,
+.sezione p.appunti,
+.sezione .corto__avviso,
+.sezione .lettore p,
+.sezione .lettore li {
+  text-align: left;
+  hyphens: manual;
+}
+
+/* Rete di sicurezza: una parola piu' lunga della colonna (un nome proprio, un
+   titolo straniero) va potata, altrimenti su un telefono stretto sborda e
+   sposta tutto quello che sta accanto. */
+.sezione p,
+.sezione li,
+.sezione dd,
+.sezione h1,
+.sezione h2,
+.sezione h3,
+.sezione h4 {
+  overflow-wrap: break-word;
+}
+
+/* --- quando il browser non sa sillabare ---------------------------------
+   Chrome ed Edge su Windows non hanno i dizionari di sillabazione: la
+   dichiarazione "hyphens: auto" qui sopra non produce niente. Con una colonna
+   larga non si vede, ma su un telefono il testo giustificato apre dei vuoti
+   enormi fra una parola e l'altra.
+
+   Il file main.js controlla se il browser sa sillabare l'italiano e, se non
+   sa, mette questa classe sulla pagina: la giustificazione resta per le
+   colonne larghe e sui telefoni si torna al testo allineato a sinistra, che
+   si legge sempre bene. Con la sillabazione attiva la giustificazione resta
+   anche sui telefoni, perche' le parole si spezzano e i vuoti non compaiono. */
+html.senza-sillabazione .sezione p,
+html.senza-sillabazione .sezione li,
+html.senza-sillabazione .sezione dd,
+html.senza-sillabazione .sezione blockquote {
+  hyphens: manual;
+}
+
+/* La soglia e' stata misurata, non scelta a caso. Contando la larghezza dei
+   vuoti fra le parole su tutta la pagina, sotto i 560 pixel di colonna il
+   vuoto peggiore passa da 11 a 15-23 pixel, mentre lo spazio naturale e' di
+   4: si comincia a leggere a scatti. Sopra, la giustificazione sta bene.
+   La colonna arriva a 560 pixel con uno schermo di circa 640. */
+@media (max-width: 40rem) {
+  html.senza-sillabazione .sezione p,
+  html.senza-sillabazione .sezione li,
+  html.senza-sillabazione .sezione dd,
+  html.senza-sillabazione .sezione blockquote {
+    text-align: left;
+  }
+}
+
+/* =========================================================================
+   21. STAMPA
    ========================================================================= */
 @media print {
   :root {
