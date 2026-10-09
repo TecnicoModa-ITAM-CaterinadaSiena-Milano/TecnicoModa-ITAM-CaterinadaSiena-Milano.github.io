@@ -9,8 +9,6 @@
       automatica e senza caricare nulla prima dell'apertura
    4. gestire le copertine video che girano da sole
    5. far scorrere le gallerie con le frecce
-   6. controllare se il browser sa sillabare l'italiano, per il testo
-      giustificato
    ========================================================================= */
 
 /* ---------------------------------------------------------------------
@@ -319,56 +317,6 @@ function initCaroselli() {
 
 
 /* ---------------------------------------------------------------------
-   6. SILLABAZIONE ITALIANA
-   Il testo delle sezioni e' giustificato, e la giustificazione sta bene
-   solo se il browser sa spezzare le parole: altrimenti, in una colonna
-   stretta, apre dei vuoti enormi fra una parola e l'altra.
-
-   Non tutti i browser hanno i dizionari di sillabazione. Qui si fa la
-   domanda al browser con una parola sola, che senza sillabazione non puo'
-   andare su due righe: se il risultato cambia, il browser sa sillabare.
-   Se non sa, si mette la classe "senza-sillabazione" sulla pagina e il
-   foglio di stile allinea a sinistra soltanto le colonne strette.
-
-   Il controllo costa una volta sola per pagina e non si vede: il blocco
-   di prova sta fuori dalla finestra e viene tolto subito.
-   --------------------------------------------------------------------- */
-function initSillabazione() {
-  const prova = document.createElement('div');
-  prova.lang = 'it';
-  prova.style.cssText =
-    'position:absolute;left:-9999px;top:0;width:6em;font-size:16px;' +
-    'white-space:normal;word-break:normal;overflow-wrap:normal;';
-
-  const contaRighe = () => {
-    const r = document.createRange();
-    r.selectNodeContents(prova);
-    return r.getClientRects().length;
-  };
-
-  try {
-    /* quattordici lettere e nessuno spazio: puo' andare su due righe solo
-       se il browser sceglie di spezzarla, e cioe' solo se sa sillabare */
-    prova.textContent = 'incongruentemente';
-    document.body.appendChild(prova);
-
-    prova.style.hyphens = 'none';
-    const senza = contaRighe();
-
-    prova.style.hyphens = 'auto';
-    const con = contaRighe();
-
-    if (con === senza) document.documentElement.classList.add('senza-sillabazione');
-  } catch {
-    /* se il controllo non si puo' fare si lascia com'e': giustificato con la
-       sillabazione richiesta, che e' la scelta migliore quando funziona */
-  } finally {
-    prova.remove();
-  }
-}
-
-
-/* ---------------------------------------------------------------------
    AVVIO
    --------------------------------------------------------------------- */
 initAccesso();
@@ -377,4 +325,3 @@ initPannelli();
 initGalleria();
 initCicli();
 initCaroselli();
-initSillabazione();

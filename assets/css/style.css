@@ -70,7 +70,20 @@
   --peso-forte: 700;
 
   --larghezza: 84rem;
-  --larghezza-testo: 68ch;
+
+  /* Larghezza della colonna di testo. Cresce con lo schermo e si ferma a
+     760 pixel.
+     Il "min(100%)" serve sui telefoni e sui tablet: li la colonna prende tutta
+     la larghezza che c'e', e la formula non stringe mai il testo.
+     Il limite di 760 pixel non e' un caso: sono circa 90 caratteri per riga,
+     e oltre l'occhio fatic a trovare da dove comincia la riga. Su un monitor
+     da 1920 la pagina offre 1344 pixel di spazio utile: senza questo fermo,
+     la riga arriverebbe a 105-130 caratteri e si leggerebbe a fatica.
+
+     II mezzo rem tiene il testo fermo sui computer portatili (dai 900 pixel
+     in su la colonna e' gia' vicina al massimo) e lo allarga sui monitor
+     grandi, che e' dove il vuoto si vedeva. */
+  --larghezza-testo: min(100%, clamp(41rem, 33rem + 16vw, 47.5rem));
   /* margine laterale: cresce con lo schermo invece di restare fisso, cosi'
      su un telefono non stringe il testo e su un monitor non resta un vuoto */
   --margine: clamp(1.25rem, 4.5vw, 4rem);
@@ -1059,26 +1072,24 @@ a { color: var(--blu); text-underline-offset: 3px; }
 /* =========================================================================
    20. TESTO GIUSTIFICATO
    -------------------------------------------------------------------------
-   Il testo che si legge come un discorso va giustificato: i due bordi diventano
-   due linee rette invece di due linee a denti di sega, e la pagina resta
-   ferma mentre si scorre.
+   Il testo che si legge come un discorso va giustificato: i due bordi
+   diventano due linee rette invece di due linee a denti di sega, e la pagina
+   resta ferma mentre si scorre.
 
-   La larghezza della colonna si adatta da sola (vedi .sezione e
-   --larghezza-testo): quello che si deve aggiungere e' la sillabazione.
-   Senza, su una colonna stretta — il telefono — il testo giustificato apre dei
-   vuoti enormi fra una parola e l'altra, e il difetto si vede subito. Con la
-   sillabazione le parole si spezzano solo quando serve davvero.
-
-   La sillabazione funziona perche' le pagine hanno lang="it": e' la lingua
-   dichiarata che dice al browser quali regole usare.
+   La larghezza della colonna si adatta da sola (vedi --larghezza-testo).
+   Nessuna parola viene spezzata: "hyphens: none" e' dichiarato qui sotto, e
+   non la cambia nessun browser. Su un computer la giustificazione sta bene
+   anche senza sillabazione, perche' la colonna e' larga e le parole sono
+   poche per riga; su un telefono, dove le parole per riga sono poche e il
+   giustificato aprirebbe dei vuoti, si torna a sinistra: la soglia e' sotto.
    ========================================================================= */
 .sezione p,
 .sezione li,
 .sezione dd,
 .sezione blockquote {
   text-align: justify;
-  hyphens: auto;
-  -webkit-hyphens: auto;
+  hyphens: none;
+  -webkit-hyphens: none;
   text-wrap: pretty;
 }
 
@@ -1110,12 +1121,13 @@ a { color: var(--blu); text-underline-offset: 3px; }
 .sezione .lettore p,
 .sezione .lettore li {
   text-align: left;
-  hyphens: manual;
 }
 
-/* Rete di sicurezza: una parola piu' lunga della colonna (un nome proprio, un
-   titolo straniero) va potata, altrimenti su un telefono stretto sborda e
-   sposta tutto quello che sta accanto. */
+/* Rete di sicurezza, non sillabazione: una parola viene spezzata solo se da
+   sola non entra nella colonna nemmeno in una riga (un nome proprio, un
+   titolo straniero). Una parola che ci sta, anche stretta, non viene mai
+   spezzata per far salire il testo. Senza questo, su un telefono stretto la
+   parola sborderebbe e sposterebbe tutto quello che sta accanto. */
 .sezione p,
 .sezione li,
 .sezione dd,
@@ -1124,36 +1136,20 @@ a { color: var(--blu); text-underline-offset: 3px; }
 .sezione h3,
 .sezione h4 {
   overflow-wrap: break-word;
-}
-
-/* --- quando il browser non sa sillabare ---------------------------------
-   Chrome ed Edge su Windows non hanno i dizionari di sillabazione: la
-   dichiarazione "hyphens: auto" qui sopra non produce niente. Con una colonna
-   larga non si vede, ma su un telefono il testo giustificato apre dei vuoti
-   enormi fra una parola e l'altra.
-
-   Il file main.js controlla se il browser sa sillabare l'italiano e, se non
-   sa, mette questa classe sulla pagina: la giustificazione resta per le
-   colonne larghe e sui telefoni si torna al testo allineato a sinistra, che
-   si legge sempre bene. Con la sillabazione attiva la giustificazione resta
-   anche sui telefoni, perche' le parole si spezzano e i vuoti non compaiono. */
-html.senza-sillabazione .sezione p,
-html.senza-sillabazione .sezione li,
-html.senza-sillabazione .sezione dd,
-html.senza-sillabazione .sezione blockquote {
-  hyphens: manual;
+  hyphens: none;
 }
 
 /* La soglia e' stata misurata, non scelta a caso. Contando la larghezza dei
-   vuoti fra le parole su tutta la pagina, sotto i 560 pixel di colonna il
-   vuoto peggiore passa da 11 a 15-23 pixel, mentre lo spazio naturale e' di
-   4: si comincia a leggere a scatti. Sopra, la giustificazione sta bene.
-   La colonna arriva a 560 pixel con uno schermo di circa 640. */
-@media (max-width: 40rem) {
-  html.senza-sillabazione .sezione p,
-  html.senza-sillabazione .sezione li,
-  html.senza-sillabazione .sezione dd,
-  html.senza-sillabazione .sezione blockquote {
+   vuoti fra le parole su tutta la pagina, senza sillabazione: con una colonna
+   di 620 pixel il vuoto peggiore e' di 11 pixel, con 560 arriva a 15 e con
+   440 a 20, mentre lo spazio naturale fra due parole e' di 4. La colonna
+   scende sotto i 600 pixel con uno schermo di circa 660: da li' in giu' si
+   torna al testo allineato a sinistra, che si legge sempre bene. */
+@media (max-width: 42rem) {
+  .sezione p,
+  .sezione li,
+  .sezione dd,
+  .sezione blockquote {
     text-align: left;
   }
 }
