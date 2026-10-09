@@ -599,15 +599,18 @@ a { color: var(--blu); text-underline-offset: 3px; }
   border: 1px solid var(--bordo-tenue);
   background: var(--superficie-2);
 }
-/* Un film girato col telefono resta verticale. Con width:100% e height:auto il
-   film prende la sua forma: in orizzontale occupa tutta la colonna, in
-   verticale si ferma al tetto e la larghezza si ricalcola da sola, senza
-   stirare e senza lasciare bande scure. */
+/* Film nelle gallerie: prendono la colonna, o il tetto se sono alti.
+
+   Attenzione: width:auto e non width:100%. Con la larghezza fissata, quando
+   il tetto sull'altezza scatta la larghezza resta quella e il film viene
+   schiacciato: un film verticale diventa largo e basso. Il tetto va
+   abbinato a max-width:100%, cosi' la larghezza si ricalcola da sola e la
+   proporzione resta quella del film. */
 .carousel__film {
-  width: 100%;
+  width: auto;
   height: auto;
+  max-width: 100%;
   max-height: 70vh;
-  object-fit: contain;
   margin-inline: auto;
   background: none;
 }
@@ -670,10 +673,16 @@ a { color: var(--blu); text-underline-offset: 3px; }
   padding: 0;
   background: none;
 }
-.corto__schermo video { display: block; width: 100%; height: auto; background: none; }
-/* Il film non puo' essere piu' alto dello schermo: con height:auto basta un
-   tetto, la larghezza si riadatta e resta la proporzione. */
-.corto__schermo--film .corto__film { max-height: 80vh; }
+.corto__schermo video { display: block; background: none; }
+/* width:auto con max-width:100%: vedi la nota sui film nelle gallerie. Con
+   la larghezza fissata, il tetto sull'altezza schiaccia il film. */
+.corto__schermo .corto__film {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 80vh;
+  margin-inline: auto;
+}
 .corto__avviso {
   max-width: 46ch;
   margin: 0;
@@ -902,7 +911,20 @@ a { color: var(--blu); text-underline-offset: 3px; }
 .lettore__chiudi:hover { background: var(--bordo); color: var(--su-chiaro); }
 .lettore__contenuto { padding: var(--s-2); }
 .lettore__contenuto iframe,
-.lettore__contenuto video { width: 100%; aspect-ratio: 16 / 9; border: 0; background: #000; }
+.lettore__contenuto video { width: 100%; border: 0; }
+/* Le interviste sono molte in verticale: il lettore non deve imporre un
+   formato 16/9, altrimenti il film finisce in una fascia con bande nere
+   sopra e sotto. Ogni film prende la sua forma, con un tetto per non
+   superare lo schermo. width:auto con max-width:100% e' la coppia giusta:
+   vedi la nota sui film nelle gallerie. */
+.lettore__contenuto video {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 80vh;
+  margin-inline: auto;
+  background: none;
+}
 
 
 /* =========================================================================
