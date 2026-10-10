@@ -340,8 +340,36 @@ a { color: var(--blu); text-underline-offset: 3px; }
 
 .pannello__lista { display: grid; }
 
+/* -------------------------------------------------------------------------
+   IL RIENTRO DELLE SOTTOSEZIONI
+
+   Ogni voce che compare nel menu a discesa sta dentro la sezione che l'ha
+   aperto: senza rientro, pero', le voci si leggono sullo stesso piano delle
+   quattro sezioni della barra e non si capisce a chi appartengono.
+
+   Il rientro e' come quello di un elenco puntato: la lista delle voci
+   sporge di un passo rispetto al bordo del pannello e si aggancia a una
+   linea verticale, che tiene insieme le voci e le mostra come un blocco
+   unico sotto la sezione. Ogni livello dentro (i settori, le figlie di un
+   gruppo) rientra di un passo in piu'.
+   La regola passa per .pannello perche' il ripristino generale degli elenchi
+   (ul[class] con padding: 0) ha piu' peso di una classe sola e azzererebbe il rientro.
+   ------------------------------------------------------------------------- */
+.pannello .pannello__lista,
+.pannello .pannello__settori,
+.pannello .gruppo {
+  margin: 0;
+  padding-left: var(--s-4);
+  border-left: 2px solid var(--bordo-tenue);
+}
+
 /* sezione senza sottopagine: si dice, invece di generare una lista vuota */
-.pannello__vuoto { padding: var(--s-1) var(--s-2); color: var(--testo-tenue); font-size: 0.9rem; }
+.pannello__vuoto {
+  margin: 0;
+  padding: var(--s-1) var(--s-2) var(--s-1) calc(var(--s-4) + 3px);
+  color: var(--testo-tenue);
+  font-size: 0.9rem;
+}
 
 .pannello__voce {
   display: block;
@@ -353,6 +381,12 @@ a { color: var(--blu); text-underline-offset: 3px; }
 }
 .pannello__voce:hover { background: var(--bordo-tenue); border-left-color: var(--giallo); }
 .pannello__voce[aria-current="page"] { border-left-color: var(--bordo); font-weight: var(--peso-medio); }
+/* il pannello e' piu' largo, perche' adesso le parole non corrono piu' fino
+   al bordo e hanno bisogno del loro spazio */
+.pannello { min-width: 26rem; }
+/* L'ultima voce sta in fondo a destra: un pannello che parte da li' uscirebbe
+   dallo schermo. Si aggancia al suo bordo destro e si apre verso sinistra. */
+.nav__voce:last-child .pannello { left: auto; right: 0; }
 
 
 /* =========================================================================
@@ -378,15 +412,21 @@ a { color: var(--blu); text-underline-offset: 3px; }
   text-decoration: none;
 }
 .pannello__settore-titolo:hover { color: var(--bordo-chiaro); }
+/* dentro un settore le voci sono un passo piu' dentro: il rientro le
+   distingue dal nome del settore, che e' sullo stesso piano delle altre
+   sezioni del menu */
+.pannello__settori .pannello__voce { padding-left: var(--s-3); }
 
 
 /* =========================================================================
    9. GRUPPO CON FIGLIE — Orientamento e iscrizioni
    ========================================================================= */
 .pannello__gruppo { margin-bottom: var(--s-2); }
+/* Le figlie di un gruppo scendono di un altro passo: la linea gialla le
+   tiene insieme e dice che stanno dentro la voce sopra, non al suo fianco. */
 .pannello__figlie {
-  margin: 2px 0 0;
-  padding-left: var(--s-2);
+  margin: 2px 0 0 var(--s-3);
+  padding-left: var(--s-3);
   border-left: 3px solid var(--giallo);
 }
 .pannello__voce-figlia { font-size: 0.9rem; padding-left: var(--s-2); }
