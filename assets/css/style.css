@@ -23,35 +23,35 @@
    ========================================================================= */
 :root {
   /* fondo e superfici */
-  --sfondo: #500019;          /* prugna profondo — colore di Head Geneve */
-  --superficie: #6b0029;      /* pannelli e tasti: un gradino sopra */
-  --superficie-2: #3a0013;    /* fasce alternate: sotto il fondo */
-  --campitura: #3a0013;
+  --sfondo: #000000;          /* nero: il fondo del sito Sistema Moda 10.0 */
+  --superficie: #141414;      /* pannelli e tasti: un grigio quasi nero */
+  --superficie-2: #0b0b0b;    /* fasce alternate: sotto il fondo */
+  --campitura: #0b0b0b;
 
   /* testo */
-  --testo: #fdf2f6;           /* 16.2:1 sul fondo */
-  --testo-tenue: #e0aec0;     /*  9.2:1 sul fondo */
+  --testo: #ffffff;           /* bianco pieno */
+  --testo-tenue: #c2c2c2;     /* grigio chiaro per le scritte secondarie */
 
   /* linee */
-  --bordo: #ff00b4;           /* magenta: la linea della griglia */
-  --bordo-tenue: #8a0f45;
-  --bordo-chiaro: #ffb3e6;
+  --bordo: #f02f7b;           /* rosa fucsia: il colore del poster Sistema Moda 10.0 */
+  --bordo-tenue: #6b0f2e;     /* la stessa tinta, molto scurita */
+  --bordo-chiaro: #ff9dc4;
 
   /* colori guida */
-  --blu: #6d9bff;             /* 5.7:1 sul fondo — per testi e pulsanti */
-  --magenta: #ff4dc4;         /* 5.2:1 — accento leggibile */
+  --blu: #7aa2ff;             /* azzurro schiarito per il fondo nero */
+  --magenta: #ff5c93;         /* il fucsia, reso leggibile sul nero */
   --giallo: #ffd400;          /* giallo De Stijl, solo per campiture e linee */
   --rosso: #ff4b39;
   --verde: #4be0a8;
 
   /* la famiglia dei colori primari, ruotata sui tasti */
-  --de-stijl-1: #ff00b4;
-  --de-stijl-2: #6d9bff;
+  --de-stijl-1: #f02f7b;
+  --de-stijl-2: #7aa2ff;
   --de-stijl-3: #ffd400;
   --de-stijl-4: #ff4b39;
 
   /* testo da mettere su un fondo pieno */
-  --su-chiaro: #1a0022;       /* scuro leggibile su blu, giallo, magenta */
+  --su-chiaro: #14000a;       /* scuro leggibile sul rosa e sul giallo */
 
   /* griglia: passo base 8px */
   --s-1: 0.5rem;
@@ -520,6 +520,61 @@ a { color: var(--blu); text-underline-offset: 3px; }
   color: var(--testo-tenue);
 }
 
+/* -------------------------------------------------------------------------
+   L'IMMAGINE DELLA HOME
+
+   La manichina avvolta nella rete, presa dal poster Sistema Moda 10.0: e' la
+   colonna di destra del poster, con la colonna di sinistra (che reggeva il
+   titolo) e la fascia in alto (che reggeva la scritta) tagliate via, quindi
+   nell'immagine non c'e' scritta.
+
+   E' una immagine sola e grande: parte dalla destra del titolo e scende dietro
+   ai sei tasti, che diventano quasi trasparenti per lasciarla vedere. Il
+   testo non cambia, cambia solo quanto e' largo.
+
+   Il selettore :has() serve a prendere solo la home: e' l'unica pagina con la
+   composizione e con i sei tasti. Sotto i 40rem non c'e' spazio e l'immagine
+   sparisce. */
+@media (min-width: 40rem) {
+  main:has(> .composizione) {
+    position: relative;
+    /* isolate crea un livello di impilamento: cosi' l'immagine resta dietro
+       al testo ma davanti al fondo, e non scivola sotto la pagina. */
+    isolation: isolate;
+  }
+  main:has(> .composizione)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 46%;
+    background: url("../img/sistema-moda-10/manichina.jpg") right top / contain no-repeat;
+    pointer-events: none;   /* non ruba il clic a niente */
+    z-index: -1;
+    opacity: 0.92;
+    /* La foto e' sfumata ai bordi cosi' non si vede il rettangolo: si scioglie
+       nel nero della pagina invece di stare appiccicata sopra. */
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0, #000 18%),
+      linear-gradient(to bottom, #000 0 78%, transparent 100%);
+    mask-image:
+      linear-gradient(to right, transparent 0, #000 18%),
+      linear-gradient(to bottom, #000 0 78%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  /* il titolo scende di misura e va a sinistra, per lasciare il posto
+     all'immagine: il contenitore di solito sta centrato, qui no */
+  .composizione .container {
+    width: min(100% - var(--margine) * 2, 50%);
+    margin-inline: var(--margine) 0;
+  }
+  .composizione__titolo { font-size: clamp(1.1rem, 3vw, 2.9rem); }
+  .composizione__sottotitolo { max-width: 30ch; }
+}
+
 .ingressi {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -595,6 +650,20 @@ a { color: var(--blu); text-underline-offset: 3px; }
 .ingresso--rilievo .ingresso__numero,
 .ingresso--rilievo .ingresso__nome { color: var(--su-chiaro); }
 .ingresso--rilievo .ingresso__barra { background: var(--giallo); }
+
+/* Sulla home, dove c'e' l'immagine grande della manichina: i cinque tasti
+   con la copertina si fanno un po' trasparenti, cosi' l'immagine si vede
+   dietro. Il sesto, che e' una fascia di solo testo, resta pieno nero: con
+   l'immagine sotto sembrerebbe diverso dagli altri cinque, quindi la scritta
+   torna bianca e il numerino prende il rosa come in tutti gli altri.
+   Sta qui, dopo le regole dei tasti, perche' con lo stesso peso vince
+   l'ultima. */
+@media (min-width: 40rem) {
+  .ingresso { background: rgb(20 20 20 / 0.76); }
+  .ingresso--rilievo { background: #141414; }
+  .ingresso--rilievo .ingresso__nome { color: var(--testo); }
+  .ingresso--rilievo .ingresso__numero { color: var(--bordo); }
+}
 
 
 /* =========================================================================
@@ -1223,10 +1292,10 @@ a { color: var(--blu); text-underline-offset: 3px; }
    ========================================================================= */
 @media print {
   :root {
-    --sfondo: #fff; --superficie: #fff; --superficie-2: #fff; --campitura: #fff;
+  --sfondo: #000000;          /* nero: il fondo del sito Sistema Moda 10.0 */
     --testo: #000; --testo-tenue: #333;
     --bordo: #000; --bordo-tenue: #999; --bordo-chiaro: #333;
-    --blu: #000; --magenta: #000; --su-chiaro: #fff;
+  --blu: #7aa2ff;             /* azzurro schiarito per il fondo nero */
     --de-stijl-1: #000; --de-stijl-2: #000; --de-stijl-3: #000; --de-stijl-4: #000;
   }
   .comandi-barra, .nav, .pannello, .piedipagina, .percorso, .lettore { display: none !important; }
