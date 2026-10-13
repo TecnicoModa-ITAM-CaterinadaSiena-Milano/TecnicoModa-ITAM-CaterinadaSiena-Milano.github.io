@@ -217,91 +217,157 @@
   }
 }
 
-
 /* =========================================================================
    I BORDI, CHE CAMBIANO TINTA
 
-   I bordi fucsia sono la parte ferma del sito: sono quelli che tengono
-   insieme l'intestazione, il menu, i tasti della home, le gallerie e il
-   pie' di pagina. Qui cambiano tinta come le scritte, con lo stesso ciclo e
-   nella stessa ora, cosi' il sito intero cambia colore insieme.
-
-   Il bordo non puo' pero' prendersi la sfumatura: un bordo e' una linea,
-   non una superficie, e dentro una linea la sfumatura non ci sta. Il
-   colore quindi non scorre, cambia: passa da una tinta all'altra restando
-   sempre quello che e', una linea tratteggiata o continua, del colore del
-   momento. Include il bordo tratteggiato del box "Materiali in
-   preparazione", che e' l'unico fatto a pezzi.
-
-   Serve una riga speciale, @property, che dichiara al browser "questa
-   variabile e' un colore, e i colori si possono interpolare". Senza, il
-   colore cambierebbe a scatti invece che scorrere. Nei browser che non
-   conoscono @property la dichiarazione viene ignorata e il bordo resta
-   semplicemente fucsia: il ripiego e' scritto nella stessa dichiarazione.
+   La spiegazione completa e' subito sotto, sulla regola. Qui basta il
+   nome della sezione.
    ========================================================================= */
-@property --tinta-arcobaleno {
-  syntax: "<color>";
-  inherits: false;
-  initial-value: #ff2f7d;
+
+/* I bordi fucsia: sono la parte ferma del sito, quella che tiene insieme
+   l'intestazione, il menu, i tasti della home e il pie' di pagina. Passano
+   da una tinta all'altra con lo stesso ciclo delle scritte, cosi' il sito
+   intero cambia colore insieme.
+
+   Qui il colore non puo' scorrere come sulle lettere: un bordo e' una linea,
+   non una superficie, e dentro una linea la sfumatura non ci sta. Cambia
+   quindi a tratti, ma con passaggi morbidi, restando quello che e': una linea
+   tratteggiata o continua, del colore del momento. Include il bordo
+   tratteggiato del box "Materiali in preparazione", che e' l'unico fatto a
+   pezzi.
+
+   Perche' il ciclo dura 9 secondi e non 16: a 16 il colore cambiava cosi'
+   piano che non si capiva se si muovesse o no.
+
+   Perche' qui dentro NON c'e' la protezione "non muovere le cose". Un colore
+   che cambia da solo non e' movimento: niente si sposta, niente scorre, non
+   ci sono spostamenti improvvisi davanti agli occhi. Quella protezione serve
+   per le cose che si muovono davvero, e al sito non serve fermare un bordo
+   che cambia tinta. La sfumatura sulle lettere, che scorre davvero, resta
+   dentro.
+
+   Il colore e' scritto per esteso, un lato per lato, dentro i momenti del
+   ciclo. Motivo: quando la scorciatoia border-color contiene una variabile
+   animata, Chrome ricalcola solo tre lati e lascia il quarto (quello sotto)
+   col colore di prima.
+
+   Non si usa @property, che sarebbe la strada piu' corta: funziona, ma
+   richiede un browser abbastanza recente e in quelli piu' vecchi la cosa si
+   rompe in silenzio. Qui non c'e' niente da dichiarare, funziona ovunque. */
+.btn,
+.btn--contorno,
+.intestazione,
+.nav__voce-sezione[aria-current="true"],
+.nav__apri[aria-expanded="true"],
+.pannello,
+.pannello--colonne,
+.pannello__voce[aria-current="page"],
+.menu-btn,
+/* tutti e sei i tasti della home. Nella loro regola base il bordo e' fucsia
+   ma scurito; due di loro (Design week e Orientamento) lo avevano pieno.
+   Basta .ingresso per tutti: e' la sola pagina che usa questa classe,
+   quindi non tocca nient'altro. */
+.ingresso,
+.carousel__freccia,
+.elenco,
+.gruppo__figlie,
+.lettore__finestra,
+.lettore__chiudi,
+.piedipagina,
+.barra,
+.accesso__box,
+.accesso__errore,
+.scheda,
+.nessuna-scheda {
+  animation: tinta-arcobaleno 9s linear infinite;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  /* I bordi fucsia: sono la parte fissa del sito, quella che tiene insieme
-     l'intestazione, il menu, i tasti e il piè di pagina. Anche loro passano
-     da una tinta all'altra, con lo stesso ciclo e nella stessa ora del
-     box di avviso: il sito intero cambia colore insieme.
 
-     Qui il colore non puo' scorrere come sulle lettere: un bordo e' una
-     linea, non una superficie, e la sfumatura non ci sta. Cambia quindi
-     a scatti morbidi, restando quello che e': una linea tratteggiata o
-     continua, del colore del momento. */
-  .btn,
-  .btn--contorno,
-  .intestazione,
-  .nav__voce-sezione[aria-current="true"],
-  .nav__apri[aria-expanded="true"],
-  .pannello,
-  .pannello--colonne,
-  .pannello__voce[aria-current="page"],
-  .menu-btn,
-  /* tutti e sei i tasti della home. Nella loro regola base il bordo e'
-     fucsia ma scurito; due di loro (Design week e Orientamento) lo avevano
-     pieno. Basta .ingresso per tutti: e' la sola pagina che usa questa
-     classe, quindi non tocca nient'altro. Il passaggio del mouse resta
-     giallo, perche' in style.css e' scritto con .ingresso:hover, che pesa
-     di piu' e vince. */
-  .ingresso,
-  .carousel__freccia,
-  .elenco,
-  .gruppo__figlie,
-  .lettore__finestra,
-  .lettore__chiudi,
-  .piedipagina,
-  .barra,
-  .accesso__box,
-  .accesso__errore,
-  .scheda,
-  .nessuna-scheda {
-    /* I quattro lati si scrivono uno per uno, e non con la scorciatoia
-       border-color. Motivo: quando la scorciatoia contiene una variabile
-       animata, Chrome ricalcola solo tre lati e lascia il quarto (quello
-       sotto) col colore di prima. Scrivendoli a uno a uno il colore
-       cambia dappertutto. Il secondo valore e' il ripiego: se
-       --tinta-arcobaleno non esiste, il bordo torna fucsia. */
-    border-top-color: var(--tinta-arcobaleno, var(--bordo));
-    border-right-color: var(--tinta-arcobaleno, var(--bordo));
-    border-bottom-color: var(--tinta-arcobaleno, var(--bordo));
-    border-left-color: var(--tinta-arcobaleno, var(--bordo));
-    animation: tinta-arcobaleno 16s linear infinite;
+
+/* =========================================================================
+   I SEI TASTI, OGNUNO COL SUO COLORE
+
+   I sei tasti non cambiano tutti insieme: ognuno parte da una tinta diversa
+   e sta li'. Cosi' la home e' multicolore in qualunque momento, anche se il
+   ciclo non parte del tutto.
+
+   Due cose insieme, per lo stesso risultato:
+
+     il colore fermo    ognuno ha il suo, scritto qui sotto. Se il ciclo non
+                       gira per un motivo qualunque, i sei tasti restano
+                       sei colori diversi e non diventano fucsia.
+
+     il ritardo        animation-delay con un numero negativo vuoto: ogni
+                       tasto comincia il ciclo gia' advancedo di un sesto di
+                       giro, cosi' sta su una tinta diversa dagli altri. Il
+                       giro dura 9 secondi, un sesto sono 1,5 secondi.
+
+   I colori sono i sei del ciclo, nello stesso ordine in cui il ciclo li
+   attraversa: rosa, giallo, verde, azzurro, viola, rosa chiaro.
+   ========================================================================= */
+.ingressi > li:nth-child(1) .ingresso { border-color: #ff2f7d; animation-delay: 0s; }
+.ingressi > li:nth-child(2) .ingresso { border-color: #ffb300; animation-delay: -1.5s; }
+.ingressi > li:nth-child(3) .ingresso { border-color: #4be0a8; animation-delay: -3s; }
+.ingressi > li:nth-child(4) .ingresso { border-color: #7aa2ff; animation-delay: -4.5s; }
+.ingressi > li:nth-child(5) .ingresso { border-color: #c98bff; animation-delay: -6s; }
+.ingressi > li:nth-child(6) .ingresso { border-color: #ff9dc4; animation-delay: -7.5s; }
+
+/* Il passaggio del mouse e l'arrivo con la tastiera voglion dire "guarda
+   qua", quindi devono fermare il ciclo e diventare gialli. Un'animazione,
+   se non e' dichiarata altrimenti, batte il foglio di stile: senza queste
+   righe il giallo di style.css verrebbe perso.
+
+   Sta DOPO le sei regole dei tasti, e non prima, perche' quelle hanno lo
+   stesso peso (.ingressi > li > .ingresso): a parita' di peso vince
+   l'ultima. Se stesse prima, sui sei tasti il giallo non si vedrebbe.
+
+   Per questo la prima riga e' lunga: senza .ingressi > li .ingresso:hover il
+   giallo si fermerebbe solo sui tasti che non hanno una tinta propria. */
+.ingresso:hover,
+.ingresso:focus-within,
+.ingresso--design:hover,
+.ingresso--rilievo:hover,
+.ingressi > li .ingresso:hover,
+.ingressi > li .ingresso:focus-within {
+  animation: none;
+  border-color: var(--giallo);
+}
+
+@keyframes tinta-arcobaleno {
+  0%, 100% {
+    border-top-color: #ff2f7d;
+    border-right-color: #ff2f7d;
+    border-bottom-color: #ff2f7d;
+    border-left-color: #ff2f7d;
   }
-
-  @keyframes tinta-arcobaleno {
-    0%   { --tinta-arcobaleno: #ff2f7d; }
-    17%  { --tinta-arcobaleno: #ffb300; }
-    34%  { --tinta-arcobaleno: #4be0a8; }
-    51%  { --tinta-arcobaleno: #7aa2ff; }
-    68%  { --tinta-arcobaleno: #c98bff; }
-    85%  { --tinta-arcobaleno: #ff2f7d; }
-    100% { --tinta-arcobaleno: #ff2f7d; }
+  16.67% {
+    border-top-color: #ffb300;
+    border-right-color: #ffb300;
+    border-bottom-color: #ffb300;
+    border-left-color: #ffb300;
+  }
+  33.33% {
+    border-top-color: #4be0a8;
+    border-right-color: #4be0a8;
+    border-bottom-color: #4be0a8;
+    border-left-color: #4be0a8;
+  }
+  50% {
+    border-top-color: #7aa2ff;
+    border-right-color: #7aa2ff;
+    border-bottom-color: #7aa2ff;
+    border-left-color: #7aa2ff;
+  }
+  66.67% {
+    border-top-color: #c98bff;
+    border-right-color: #c98bff;
+    border-bottom-color: #c98bff;
+    border-left-color: #c98bff;
+  }
+  83.33% {
+    border-top-color: #ff9dc4;
+    border-right-color: #ff9dc4;
+    border-bottom-color: #ff9dc4;
+    border-left-color: #ff9dc4;
   }
 }
