@@ -204,14 +204,11 @@
       animation: arcobaleno 6s linear infinite;
     }
 
-    /* Il "10.0" dentro il titolo ha un colore proprio, pink: va reso
-       trasparente anche lui, se no resta rosa in mezzo alle lettere
-       arcobaleno e il titolo sembra rotto a meta'. */
-    .composizione__tasto:hover em,
-    .composizione__tasto:focus-visible em {
-      color: transparent;
-      -webkit-text-fill-color: transparent;
-    }
+    /* il "10.0" dentro il titolo resta com'e': ha un colore proprio e non
+       si mette in fila con le altre lettere. Resta rosa fermo anche quando
+       il titolo intorno diventa arcobaleno: e' il punto fermo della
+       scritta. Per questo non viene reso trasparente e non si gli applica
+       nessuna sfumatura. */
 
     @keyframes arcobaleno {
       from { background-position: 0% 50%; }
@@ -222,17 +219,25 @@
 
 
 /* =========================================================================
-   IL BORDO TRATTEGGIATO DEL BOX DI AVISO, CHE CAMBIA TINTA
+   I BORDI, CHE CAMBIANO TINTA
 
-   Il box "Materiali in preparazione" ha un bordo a tratteggi rosa. Lo
-   tratteggio non si puo' riempire di sfumatura, quindi qui il colore non
-   scorre: passa da una tinta all'altra, restando sempre tratteggiato.
+   I bordi fucsia sono la parte ferma del sito: sono quelli che tengono
+   insieme l'intestazione, il menu, i tasti della home, le gallerie e il
+   pie' di pagina. Qui cambiano tinta come le scritte, con lo stesso ciclo e
+   nella stessa ora, cosi' il sito intero cambia colore insieme.
+
+   Il bordo non puo' pero' prendersi la sfumatura: un bordo e' una linea,
+   non una superficie, e dentro una linea la sfumatura non ci sta. Il
+   colore quindi non scorre, cambia: passa da una tinta all'altra restando
+   sempre quello che e', una linea tratteggiata o continua, del colore del
+   momento. Include il bordo tratteggiato del box "Materiali in
+   preparazione", che e' l'unico fatto a pezzi.
 
    Serve una riga speciale, @property, che dichiara al browser "questa
    variabile e' un colore, e i colori si possono interpolare". Senza, il
    colore cambierebbe a scatti invece che scorrere. Nei browser che non
    conoscono @property la dichiarazione viene ignorata e il bordo resta
-   semplicemente rosa: il fallback e' scritto nella stessa dichiarazione.
+   semplicemente fucsia: il ripiego e' scritto nella stessa dichiarazione.
    ========================================================================= */
 @property --tinta-arcobaleno {
   syntax: "<color>";
@@ -241,11 +246,47 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  /* I bordi fucsia: sono la parte fissa del sito, quella che tiene insieme
+     l'intestazione, il menu, i tasti e il piè di pagina. Anche loro passano
+     da una tinta all'altra, con lo stesso ciclo e nella stessa ora del
+     box di avviso: il sito intero cambia colore insieme.
+
+     Qui il colore non puo' scorrere come sulle lettere: un bordo e' una
+     linea, non una superficie, e la sfumatura non ci sta. Cambia quindi
+     a scatti morbidi, restando quello che e': una linea tratteggiata o
+     continua, del colore del momento. */
+  .btn,
+  .btn--contorno,
+  .intestazione,
+  .nav__voce-sezione[aria-current="true"],
+  .nav__apri[aria-expanded="true"],
+  .pannello,
+  .pannello--colonne,
+  .pannello__voce[aria-current="page"],
+  .menu-btn,
+  .ingresso--design,
+  .ingresso--rilievo,
+  .carousel__freccia,
+  .elenco,
+  .gruppo__figlie,
+  .lettore__finestra,
+  .lettore__chiudi,
+  .piedipagina,
+  .barra,
+  .accesso__box,
+  .accesso__errore,
   .scheda,
   .nessuna-scheda {
-    /* il secondo valore e' il ripiego: se --tinta-arcobaleno non esiste,
-       il bordo torna rosa come nel sito di default */
-    border-color: var(--tinta-arcobaleno, var(--bordo-chiaro));
+    /* I quattro lati si scrivono uno per uno, e non con la scorciatoia
+       border-color. Motivo: quando la scorciatoia contiene una variabile
+       animata, Chrome ricalcola solo tre lati e lascia il quarto (quello
+       sotto) col colore di prima. Scrivendoli a uno a uno il colore
+       cambia dappertutto. Il secondo valore e' il ripiego: se
+       --tinta-arcobaleno non esiste, il bordo torna fucsia. */
+    border-top-color: var(--tinta-arcobaleno, var(--bordo));
+    border-right-color: var(--tinta-arcobaleno, var(--bordo));
+    border-bottom-color: var(--tinta-arcobaleno, var(--bordo));
+    border-left-color: var(--tinta-arcobaleno, var(--bordo));
     animation: tinta-arcobaleno 16s linear infinite;
   }
 
