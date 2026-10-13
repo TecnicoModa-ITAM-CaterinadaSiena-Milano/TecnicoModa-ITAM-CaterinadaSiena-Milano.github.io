@@ -1,0 +1,116 @@
+/* =========================================================================
+   ASPETTO NERO — l'impianto del poster Sistema Moda 10.0
+
+   Come l'aspetto viola, questo file cambia solo i colori e nient'altro:
+   struttura, caratteri, spazi, gallerie, film e menu stanno in style.css e
+   sono gli stessi. Si passa dall'uno all'altro cambiando una riga nel
+   generatore (la costante ASPETTO).
+
+   In piu' questo aspetto ha una cosa in piu': l'immagine grande della
+   manichina sulla home, presa dal poster della docente. Nello stile viola la
+   home e' solo il titolo e i sei tasti, come prima.
+   ========================================================================= */
+
+:root {
+  /* fondo e superfici */
+  --sfondo: #000000;          /* nero: il fondo del poster Sistema Moda 10.0 */
+  --superficie: #141414;      /* pannelli e tasti: un grigio quasi nero */
+  --superficie-2: #0b0b0b;    /* fasce alternate: sotto il fondo */
+  --campitura: #0b0b0b;
+
+  /* testo */
+  --testo: #ffffff;           /* bianco pieno */
+  --testo-tenue: #c2c2c2;     /* grigio chiaro per le scritte secondarie */
+
+  /* linee */
+  --bordo: #f02f7b;           /* rosa fucsia: il colore del poster */
+  --bordo-tenue: #6b0f2e;     /* la stessa tinta, molto scurita */
+  --bordo-chiaro: #ff9dc4;
+
+  /* colori guida */
+  --blu: #7aa2ff;             /* azzurro schiarito per il fondo nero */
+  --magenta: #ff5c93;         /* il fucsia, reso leggibile sul nero */
+  --giallo: #ffd400;          /* giallo De Stijl, sul nero sta benissimo */
+  --rosso: #ff4b39;
+  --verde: #4be0a8;
+
+  /* la famiglia dei colori primari, ruotata sui tasti */
+  --de-stijl-1: #f02f7b;
+  --de-stijl-2: #7aa2ff;
+  --de-stijl-3: #ffd400;
+  --de-stijl-4: #ff4b39;
+
+  /* testo da mettere su un fondo pieno */
+  --su-chiaro: #14000a;       /* scuro leggibile sul rosa e sul giallo */
+}
+
+
+/* =========================================================================
+   LA HOME DI QUESTO ASPETTO: IL TITOLO A SINISTRA E LA MANICHINA A DESTRA
+
+   La manichina avvolta nella rete, presa dal poster Sistema Moda 10.0: e' la
+   colonna di destra del poster, con la colonna di sinistra (che reggeva il
+   titolo) e la fascia in alto (che reggeva la scritta) tagliate via, quindi
+   nell'immagine non c'e' scritta.
+
+   E' una immagine sola e grande: parte dalla destra del titolo e scende dietro
+   ai sei tasti, che diventano quasi trasparenti per lasciarla vedere. Il testo
+   non cambia, cambia solo quanto e' largo.
+
+   Il selettore :has() serve a prendere solo la home: e' l'unica pagina con la
+   composizione e con i sei tasti. Sotto i 40rem non c'e' spazio e l'immagine
+   sparisce.
+   ========================================================================= */
+@media (min-width: 40rem) {
+  main:has(> .composizione) {
+    position: relative;
+    /* isolate crea un livello di impilamento: cosi' l'immagine resta dietro
+       al testo ma davanti al fondo, e non scivola sotto la pagina. */
+    isolation: isolate;
+  }
+  main:has(> .composizione)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 46%;
+    background: url("../img/sistema-moda-10/manichina.jpg") right top / contain no-repeat;
+    pointer-events: none;   /* non ruba il clic a niente */
+    z-index: -1;
+    opacity: 0.92;
+    /* La foto e' sfumata ai bordi cosi' non si vede il rettangolo: si scioglie
+       nel nero della pagina invece di stare appiccicata sopra. */
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0, #000 18%),
+      linear-gradient(to bottom, #000 0 78%, transparent 100%);
+    mask-image:
+      linear-gradient(to right, transparent 0, #000 18%),
+      linear-gradient(to bottom, #000 0 78%, transparent 100%);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  /* il titolo scende di misura e va a sinistra, per lasciare il posto
+     all'immagine: il contenitore di solito sta centrato, qui no */
+  .composizione .container {
+    width: min(100% - var(--margine) * 2, 50%);
+    margin-inline: var(--margine) 0;
+  }
+  .composizione__titolo { font-size: clamp(1.1rem, 3vw, 2.9rem); }
+  .composizione__sottotitolo { max-width: 30ch; }
+}
+
+/* I cinque tasti con la copertina si fanno un po' trasparenti: l'immagine si
+   vede dietro. Il sesto, che e' una fascia di solo testo, resta pieno nero:
+   con l'immagine sotto sembrerebbe diverso dagli altri cinque, quindi la
+   scritta torna bianca e il numerino prende il rosa come in tutti gli altri.
+
+   Queste regole stanno in un media query e vengono dopo le regole dei tasti
+   di style.css perche', con lo stesso peso, vince l'ultima. */
+@media (min-width: 40rem) {
+  .ingresso { background: rgb(20 20 20 / 0.76); }
+  .ingresso--rilievo { background: #141414; }
+  .ingresso--rilievo .ingresso__nome { color: var(--testo); }
+  .ingresso--rilievo .ingresso__numero { color: var(--bordo); }
+}

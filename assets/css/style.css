@@ -1,57 +1,78 @@
 /* =========================================================================
    TECNICO SISTEMA MODA (ITAM) — CATERINA DA SIENA · MILANO
 
+   Questo foglio e' la STRUTTURA del sito, non il suo aspetto. I colori
+   stanno nei file d'aspetto, caricati dopo questo e quindi vincono:
+
+     aspetto-viola.css   fondo prugna #500019 (Head Geneve), accento magenta
+                         #ff00b4: il primo impianto del sito
+     aspetto-nero.css    fondo #000000, accento rosa #f02f7b preso dal
+                         poster Sistema Moda 10.0, con l'immagine grande
+                         della manichina in home
+
+   Passare dall'uno all'altro non tocca nient'altro: stesse pagine, stesso
+   testo, stesso menu, stesse gallerie. Lo sceglie chi cura il sito.
+
    Direzione: catalogo contemporaneo di design tessile, con la grammatica
    dei tasti di Gerrit Rietveld — quadrati, separati, bordi netti.
-
-   Fondo       : prugna profondo #500019, il colore del sito Head Geneve
-   Accento     : magenta #ff00b4, lo stesso dei loro collegamenti
-   Colore guida: azzurro elettrico #6d9bff, schiarito per restare leggibile
-                 su fondo scuro (il blu elettrario puro sparirebbe)
-   Carattere   : Syne per tasti e titoli, Archivo per il testo corrente
 
    Tema solo scuro, di proposito: e' l'identita' del sito. Lo stemma
    dell'istituto e' nero e viene trattato con un bordo chiaro per restare
    leggibile senza alterarne il colore.
-
-   Tutti i valori visivi stanno in :root.
    ========================================================================= */
 
 
 /* =========================================================================
    1. VARIABILI
    ========================================================================= */
+/* I COLORI NON STANNO QUI
+
+   Questo foglio tiene la struttura del sito: com'e' fatto, con quali
+   caratteri, con quali spazi. I colori veri stanno nei file d'aspetto, che
+   vengono caricati DOPO questo e quindi vincono:
+
+     aspetto-viola.css   fondo prugna #500019 (Head Geneve), accento magenta
+                         #ff00b4: il primo impianto del sito
+     aspetto-nero.css    fondo #000000, accento rosa #f02f7b preso dal
+                         poster Sistema Moda 10.0, con l'immagine grande
+                         della manichina in home
+
+   Passare dall'uno all'altro non tocca nient'altro: stesse pagine, stesso
+   testo, stesso menu, stesse gallerie.
+
+   Qui sotto ci sono dei segnaposto neutri: tengono in piedi la pagina se per
+   errore un file d'aspetto non viene caricato. */
 :root {
   /* fondo e superfici */
-  --sfondo: #000000;          /* nero: il fondo del sito Sistema Moda 10.0 */
-  --superficie: #141414;      /* pannelli e tasti: un grigio quasi nero */
-  --superficie-2: #0b0b0b;    /* fasce alternate: sotto il fondo */
-  --campitura: #0b0b0b;
+  --sfondo: #141014;          /* segnaposto: lo vero e' nel file d'aspetto */
+  --superficie: #241a20;
+  --superficie-2: #1c1418;    /* fasce alternate: sotto il fondo */
+  --campitura: #1c1418;
 
   /* testo */
-  --testo: #ffffff;           /* bianco pieno */
-  --testo-tenue: #c2c2c2;     /* grigio chiaro per le scritte secondarie */
+  --testo: #f2f0f1;
+  --testo-tenue: #b8b0b4;
 
   /* linee */
-  --bordo: #f02f7b;           /* rosa fucsia: il colore del poster Sistema Moda 10.0 */
-  --bordo-tenue: #6b0f2e;     /* la stessa tinta, molto scurita */
-  --bordo-chiaro: #ff9dc4;
+  --bordo: #888;
+  --bordo-tenue: #444;
+  --bordo-chiaro: #bbb;
 
   /* colori guida */
-  --blu: #7aa2ff;             /* azzurro schiarito per il fondo nero */
-  --magenta: #ff5c93;         /* il fucsia, reso leggibile sul nero */
+  --blu: #7aa2ff;
+  --magenta: #ff5c93;
   --giallo: #ffd400;          /* giallo De Stijl, solo per campiture e linee */
   --rosso: #ff4b39;
   --verde: #4be0a8;
 
   /* la famiglia dei colori primari, ruotata sui tasti */
-  --de-stijl-1: #f02f7b;
+  --de-stijl-1: #888;
   --de-stijl-2: #7aa2ff;
   --de-stijl-3: #ffd400;
   --de-stijl-4: #ff4b39;
 
   /* testo da mettere su un fondo pieno */
-  --su-chiaro: #14000a;       /* scuro leggibile sul rosa e sul giallo */
+  --su-chiaro: #141014;
 
   /* griglia: passo base 8px */
   --s-1: 0.5rem;
@@ -520,61 +541,6 @@ a { color: var(--blu); text-underline-offset: 3px; }
   color: var(--testo-tenue);
 }
 
-/* -------------------------------------------------------------------------
-   L'IMMAGINE DELLA HOME
-
-   La manichina avvolta nella rete, presa dal poster Sistema Moda 10.0: e' la
-   colonna di destra del poster, con la colonna di sinistra (che reggeva il
-   titolo) e la fascia in alto (che reggeva la scritta) tagliate via, quindi
-   nell'immagine non c'e' scritta.
-
-   E' una immagine sola e grande: parte dalla destra del titolo e scende dietro
-   ai sei tasti, che diventano quasi trasparenti per lasciarla vedere. Il
-   testo non cambia, cambia solo quanto e' largo.
-
-   Il selettore :has() serve a prendere solo la home: e' l'unica pagina con la
-   composizione e con i sei tasti. Sotto i 40rem non c'e' spazio e l'immagine
-   sparisce. */
-@media (min-width: 40rem) {
-  main:has(> .composizione) {
-    position: relative;
-    /* isolate crea un livello di impilamento: cosi' l'immagine resta dietro
-       al testo ma davanti al fondo, e non scivola sotto la pagina. */
-    isolation: isolate;
-  }
-  main:has(> .composizione)::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 46%;
-    background: url("../img/sistema-moda-10/manichina.jpg") right top / contain no-repeat;
-    pointer-events: none;   /* non ruba il clic a niente */
-    z-index: -1;
-    opacity: 0.92;
-    /* La foto e' sfumata ai bordi cosi' non si vede il rettangolo: si scioglie
-       nel nero della pagina invece di stare appiccicata sopra. */
-    -webkit-mask-image:
-      linear-gradient(to right, transparent 0, #000 18%),
-      linear-gradient(to bottom, #000 0 78%, transparent 100%);
-    mask-image:
-      linear-gradient(to right, transparent 0, #000 18%),
-      linear-gradient(to bottom, #000 0 78%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-composite: intersect;
-  }
-
-  /* il titolo scende di misura e va a sinistra, per lasciare il posto
-     all'immagine: il contenitore di solito sta centrato, qui no */
-  .composizione .container {
-    width: min(100% - var(--margine) * 2, 50%);
-    margin-inline: var(--margine) 0;
-  }
-  .composizione__titolo { font-size: clamp(1.1rem, 3vw, 2.9rem); }
-  .composizione__sottotitolo { max-width: 30ch; }
-}
-
 .ingressi {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -650,21 +616,6 @@ a { color: var(--blu); text-underline-offset: 3px; }
 .ingresso--rilievo .ingresso__numero,
 .ingresso--rilievo .ingresso__nome { color: var(--su-chiaro); }
 .ingresso--rilievo .ingresso__barra { background: var(--giallo); }
-
-/* Sulla home, dove c'e' l'immagine grande della manichina: i cinque tasti
-   con la copertina si fanno un po' trasparenti, cosi' l'immagine si vede
-   dietro. Il sesto, che e' una fascia di solo testo, resta pieno nero: con
-   l'immagine sotto sembrerebbe diverso dagli altri cinque, quindi la scritta
-   torna bianca e il numerino prende il rosa come in tutti gli altri.
-   Sta qui, dopo le regole dei tasti, perche' con lo stesso peso vince
-   l'ultima. */
-@media (min-width: 40rem) {
-  .ingresso { background: rgb(20 20 20 / 0.76); }
-  .ingresso--rilievo { background: #141414; }
-  .ingresso--rilievo .ingresso__nome { color: var(--testo); }
-  .ingresso--rilievo .ingresso__numero { color: var(--bordo); }
-}
-
 
 /* =========================================================================
    12b. BANNER DI COPERTINA — immagine di apertura delle pagine interne
