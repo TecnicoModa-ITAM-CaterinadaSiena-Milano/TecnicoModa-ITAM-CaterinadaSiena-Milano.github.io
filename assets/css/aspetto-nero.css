@@ -114,3 +114,79 @@
   .ingresso--rilievo .ingresso__nome { color: var(--testo); }
   .ingresso--rilievo .ingresso__numero { color: var(--bordo); }
 }
+
+
+/* =========================================================================
+   LE SCRITTE ROSSE CHE CAMBIANO COLORE
+
+   Tre scritte che nel sito di default sono rosa e qui diventano un arcobaleno
+   che scorre piano:
+
+     .titolo-sito__riga2        "Caterina da Siena · Milano", sotto il nome
+                                 del sito in alto a destra, in ogni pagina
+     .composizione__occhiello   "IIS Caterina da Siena di Milano", sopra il
+                                 titolo della home
+     .composizione__tasto        "Sistema Moda 10.0" quando ci si passa sopra
+
+   Come e' fatto: la sfumatura viene ritagliata sulle lettere e le lettere
+   diventano trasparenti, quindi il colore passa attraverso la parola come
+   un inchiostro. La sfumatura e' piu' larga della parola e scorre: si vede
+   il colore cambiare.
+
+   I colori sono quelli del sito (rosa, giallo De Stijl, verde, azzurro) piu'
+   un viola di richiamo, cosi' l'arcobaleno non sembra arrivato da fuori.
+
+   Se il browser non sa ritagliare la sfumatura sulle lettere, o se chi guarda
+   ha chiesto al sistema di non muovere le cose, la scritta resta rosa come
+   prima: il multicolore e' un di piu', non il sito.
+   ========================================================================= */
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .titolo-sito__riga2,
+    .composizione__occhiello {
+      -webkit-background-clip: text;
+      background-clip: text;
+      background-image: linear-gradient(
+        90deg,
+        #ff2f7d 0%,
+        #ffb300 17%,
+        #4be0a8 34%,
+        #7aa2ff 51%,
+        #c98bff 68%,
+        #ff2f7d 85%,
+        #ff2f7d 100%
+      );
+      background-size: 280% 100%;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation: arcobaleno 14s linear infinite;
+    }
+
+    /* il titolo della home prende l'arcobaleno solo quando ci si passa
+       sopra (o arriva con la tastiera), non sempre */
+    .composizione__tasto:hover,
+    .composizione__tasto:focus-visible {
+      -webkit-background-clip: text;
+      background-clip: text;
+      background-image: linear-gradient(
+        90deg,
+        #ff2f7d 0%,
+        #ffb300 17%,
+        #4be0a8 34%,
+        #7aa2ff 51%,
+        #c98bff 68%,
+        #ff2f7d 85%,
+        #ff2f7d 100%
+      );
+      background-size: 280% 100%;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      animation: arcobaleno 6s linear infinite;
+    }
+
+    @keyframes arcobaleno {
+      from { background-position: 0% 50%; }
+      to   { background-position: 280% 50%; }
+    }
+  }
+}
