@@ -264,8 +264,13 @@
   .pannello--colonne,
   .pannello__voce[aria-current="page"],
   .menu-btn,
-  .ingresso--design,
-  .ingresso--rilievo,
+  /* tutti e sei i tasti della home. Nella loro regola base il bordo e'
+     fucsia ma scurito; due di loro (Design week e Orientamento) lo avevano
+     pieno. Basta .ingresso per tutti: e' la sola pagina che usa questa
+     classe, quindi non tocca nient'altro. Il passaggio del mouse resta
+     giallo, perche' in style.css e' scritto con .ingresso:hover, che pesa
+     di piu' e vince. */
+  .ingresso,
   .carousel__freccia,
   .elenco,
   .gruppo__figlie,
