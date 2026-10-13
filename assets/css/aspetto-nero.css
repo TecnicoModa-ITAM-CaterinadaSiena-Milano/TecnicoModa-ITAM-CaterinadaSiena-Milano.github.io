@@ -42,6 +42,22 @@
 
   /* testo da mettere su un fondo pieno */
   --su-chiaro: #14000a;       /* scuro leggibile sul rosa e sul giallo */
+
+  /* La sfumatura dell'arcobaleno. Non e' un colore ma una sfumatura: viene
+     ritagliata sulle lettere (background-clip: text) e le lettere diventano
+     trasparenti, cosi' il colore passa attraverso la parola. Sta qui, e non
+     dentro le regole che la usano, perche' cosi' c'e' un posto solo dove
+     cambiarla se un giorno i colori dell'arcobaleno non vanno piu'. */
+  --sfumatura-arcobaleno: linear-gradient(
+    90deg,
+    #ff2f7d 0%,
+    #ffb300 17%,
+    #4be0a8 34%,
+    #7aa2ff 51%,
+    #c98bff 68%,
+    #ff2f7d 85%,
+    #ff2f7d 100%
+  );
 }
 
 
@@ -117,45 +133,58 @@
 
 
 /* =========================================================================
-   LE SCRITTE ROSSE CHE CAMBIANO COLORE
+   LE SCRITTE CHE CAMBIANO COLORE
 
-   Tre scritte che nel sito di default sono rosa e qui diventano un arcobaleno
-   che scorre piano:
+   Il sito di default ha parecchie scritte accese: rosa sulle intestazioni,
+   sui numeri, sui bordi. In questo aspetto passano tutte a un arcobaleno
+   che scorre piano, con i colori del sito (rosa, giallo De Stijl, verde,
+   azzurro) piu' un viola di richiamo, cosi' non sembrano arrivati da fuori.
+
+   Le scritte:
 
      .titolo-sito__riga2        "Caterina da Siena · Milano", sotto il nome
                                  del sito in alto a destra, in ogni pagina
      .composizione__occhiello   "IIS Caterina da Siena di Milano", sopra il
                                  titolo della home
-     .composizione__tasto        "Sistema Moda 10.0" quando ci si passa sopra
+     .titolo-pagina__occhiello  l'etichetta sopra il titolo di ogni pagina
+     .scheda__etichetta         "Materiali in preparazione", dentro il box
+                                 di avviso
+     .ingresso__numero          i numerini 01 - 06 dei tasti della home
+     .carousel__conta           "3 di 12", il contatore delle gallerie
+     .composizione__tasto       "Sistema Moda 10.0", ma solo quando ci si
+                                 passa sopra o ci si arriva con la tastiera
 
    Come e' fatto: la sfumatura viene ritagliata sulle lettere e le lettere
    diventano trasparenti, quindi il colore passa attraverso la parola come
    un inchiostro. La sfumatura e' piu' larga della parola e scorre: si vede
    il colore cambiare.
 
-   I colori sono quelli del sito (rosa, giallo De Stijl, verde, azzurro) piu'
-   un viola di richiamo, cosi' l'arcobaleno non sembra arrivato da fuori.
+   Il bordo tratteggiato del box di avviso non puo' prendere la sfumatura:
+   un bordo tratteggiato non e' una superficie. Li' il colore non scorre,
+   cambia: passa da un tinta all'altra restando tratteggiato.
 
    Se il browser non sa ritagliare la sfumatura sulle lettere, o se chi guarda
-   ha chiesto al sistema di non muovere le cose, la scritta resta rosa come
-   prima: il multicolore e' un di piu', non il sito.
+   ha chiesto al sistema di non muovere le cose, le scritte tornano al colore
+   di prima e il bordo resta rosa: il multicolore e' un di piu', non il sito.
    ========================================================================= */
+
+/* La sfumatura, scritta una volta sola: e' lei che viene ritagliata sulle
+   lettere. --sfumatura-arcobaleno sta in :root, in cima a questo foglio. */
 @media (prefers-reduced-motion: no-preference) {
   @supports ((-webkit-background-clip: text) or (background-clip: text)) {
     .titolo-sito__riga2,
-    .composizione__occhiello {
+    .composizione__occhiello,
+    .titolo-pagina__occhiello,
+    /* .scheda .scheda__etichetta e non solo .scheda__etichetta: dentro il
+       box c'e' la regola ".scheda p" che mette il grigio e, con lo stesso
+       peso, vincerebbe. */
+    .scheda .scheda__etichetta,
+    .ingresso__numero,
+    .ingresso--rilievo .ingresso__numero,
+    .carousel__conta {
       -webkit-background-clip: text;
       background-clip: text;
-      background-image: linear-gradient(
-        90deg,
-        #ff2f7d 0%,
-        #ffb300 17%,
-        #4be0a8 34%,
-        #7aa2ff 51%,
-        #c98bff 68%,
-        #ff2f7d 85%,
-        #ff2f7d 100%
-      );
+      background-image: var(--sfumatura-arcobaleno);
       background-size: 280% 100%;
       color: transparent;
       -webkit-text-fill-color: transparent;
@@ -168,25 +197,65 @@
     .composizione__tasto:focus-visible {
       -webkit-background-clip: text;
       background-clip: text;
-      background-image: linear-gradient(
-        90deg,
-        #ff2f7d 0%,
-        #ffb300 17%,
-        #4be0a8 34%,
-        #7aa2ff 51%,
-        #c98bff 68%,
-        #ff2f7d 85%,
-        #ff2f7d 100%
-      );
+      background-image: var(--sfumatura-arcobaleno);
       background-size: 280% 100%;
       color: transparent;
       -webkit-text-fill-color: transparent;
       animation: arcobaleno 6s linear infinite;
     }
 
+    /* Il "10.0" dentro il titolo ha un colore proprio, pink: va reso
+       trasparente anche lui, se no resta rosa in mezzo alle lettere
+       arcobaleno e il titolo sembra rotto a meta'. */
+    .composizione__tasto:hover em,
+    .composizione__tasto:focus-visible em {
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+
     @keyframes arcobaleno {
       from { background-position: 0% 50%; }
       to   { background-position: 280% 50%; }
     }
+  }
+}
+
+
+/* =========================================================================
+   IL BORDO TRATTEGGIATO DEL BOX DI AVISO, CHE CAMBIA TINTA
+
+   Il box "Materiali in preparazione" ha un bordo a tratteggi rosa. Lo
+   tratteggio non si puo' riempire di sfumatura, quindi qui il colore non
+   scorre: passa da una tinta all'altra, restando sempre tratteggiato.
+
+   Serve una riga speciale, @property, che dichiara al browser "questa
+   variabile e' un colore, e i colori si possono interpolare". Senza, il
+   colore cambierebbe a scatti invece che scorrere. Nei browser che non
+   conoscono @property la dichiarazione viene ignorata e il bordo resta
+   semplicemente rosa: il fallback e' scritto nella stessa dichiarazione.
+   ========================================================================= */
+@property --tinta-arcobaleno {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #ff2f7d;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scheda,
+  .nessuna-scheda {
+    /* il secondo valore e' il ripiego: se --tinta-arcobaleno non esiste,
+       il bordo torna rosa come nel sito di default */
+    border-color: var(--tinta-arcobaleno, var(--bordo-chiaro));
+    animation: tinta-arcobaleno 16s linear infinite;
+  }
+
+  @keyframes tinta-arcobaleno {
+    0%   { --tinta-arcobaleno: #ff2f7d; }
+    17%  { --tinta-arcobaleno: #ffb300; }
+    34%  { --tinta-arcobaleno: #4be0a8; }
+    51%  { --tinta-arcobaleno: #7aa2ff; }
+    68%  { --tinta-arcobaleno: #c98bff; }
+    85%  { --tinta-arcobaleno: #ff2f7d; }
+    100% { --tinta-arcobaleno: #ff2f7d; }
   }
 }
