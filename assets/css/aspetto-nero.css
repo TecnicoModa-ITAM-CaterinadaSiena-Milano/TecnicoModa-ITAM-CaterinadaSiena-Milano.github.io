@@ -169,46 +169,86 @@
    ========================================================================= */
 
 /* La sfumatura, scritta una volta sola: e' lei che viene ritagliata sulle
-   lettere. --sfumatura-arcobaleno sta in :root, in cima a questo foglio. */
+   lettere. --sfumatura-arcobaleno sta in :root, in cima a questo foglio.
+
+   Qui sotto non c'e' ancora nessuna animazione: solo la sfumatura ferma sulle
+   lettere. Il movimento arriva piu' in basso, e solo per chi vuole. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .titolo-sito__riga2,
+  .composizione__occhiello,
+  .titolo-pagina__occhiello,
+  /* .scheda .scheda__etichetta e non solo .scheda__etichetta: dentro il
+     box c'e' la regola ".scheda p" che mette il grigio e, con lo stesso
+     peso, vincerebbe. */
+  .scheda .scheda__etichetta,
+  .ingresso__numero,
+  .ingresso--rilievo .ingresso__numero,
+  .carousel__conta {
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: var(--sfumatura-arcobaleno);
+    background-size: 280% 100%;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* il "10.0" dentro il titolo della home: quattro caratteri, l'unico pezzo
+     colorato della scritta. Prende l'arcobaleno come gli altri, ma con la
+     sfumatura piu' stretta (200% invece di 280%): su una parola cosi' corta
+     una sfumatura larga mostrerebbe due tinte e sembrerebbe una macchia,
+     mentre cosi' dentro "10.0" ci sta tutto lo spettro.
+
+     Non sta nella lista di sopra perche' ha bisogno di una misura sua, ma
+     per il resto e' la stessa cosa. */
+  .composizione__titolo em {
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: var(--sfumatura-arcobaleno);
+    background-size: 200% 100%;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* il titolo della home prende l'arcobaleno solo quando ci si passa
+     sopra (o arriva con la tastiera), non sempre */
+  .composizione__tasto:hover,
+  .composizione__tasto:focus-visible {
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: var(--sfumatura-arcobaleno);
+    background-size: 280% 100%;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   IL MOVIMENTO DELLA SFUMATURA
+
+   Tutto quello qui sopra funziona anche senza animazione: la sfumatura e'
+   scritta sul momento, e ferma fa gia' un testo multicolore. Il movimento
+   e' un di piu', e viene acceso solo per chi non ha chiesto al computer di
+   fermare le cose.
+
+   Per i bordi il ragionamento e' diverso: un bordo che cambia tinta non si
+   muove, quindi la protezione non lo riguarda e sta piu' in basso, fuori. */
 @media (prefers-reduced-motion: no-preference) {
   @supports ((-webkit-background-clip: text) or (background-clip: text)) {
     .titolo-sito__riga2,
     .composizione__occhiello,
     .titolo-pagina__occhiello,
-    /* .scheda .scheda__etichetta e non solo .scheda__etichetta: dentro il
-       box c'e' la regola ".scheda p" che mette il grigio e, con lo stesso
-       peso, vincerebbe. */
     .scheda .scheda__etichetta,
     .ingresso__numero,
     .ingresso--rilievo .ingresso__numero,
-    .carousel__conta {
-      -webkit-background-clip: text;
-      background-clip: text;
-      background-image: var(--sfumatura-arcobaleno);
-      background-size: 280% 100%;
-      color: transparent;
-      -webkit-text-fill-color: transparent;
+    .carousel__conta,
+    .composizione__titolo em {
       animation: arcobaleno 14s linear infinite;
     }
 
-    /* il titolo della home prende l'arcobaleno solo quando ci si passa
-       sopra (o arriva con la tastiera), non sempre */
     .composizione__tasto:hover,
     .composizione__tasto:focus-visible {
-      -webkit-background-clip: text;
-      background-clip: text;
-      background-image: var(--sfumatura-arcobaleno);
-      background-size: 280% 100%;
-      color: transparent;
-      -webkit-text-fill-color: transparent;
       animation: arcobaleno 6s linear infinite;
     }
-
-    /* il "10.0" dentro il titolo resta com'e': ha un colore proprio e non
-       si mette in fila con le altre lettere. Resta rosa fermo anche quando
-       il titolo intorno diventa arcobaleno: e' il punto fermo della
-       scritta. Per questo non viene reso trasparente e non si gli applica
-       nessuna sfumatura. */
 
     @keyframes arcobaleno {
       from { background-position: 0% 50%; }
