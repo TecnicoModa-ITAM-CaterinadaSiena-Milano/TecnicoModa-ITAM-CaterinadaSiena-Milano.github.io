@@ -34,6 +34,11 @@ Proposte font.txt
 # lavorarci, non a pubblicarla. Resta sul computer.
 STRUTTURA-SITO.txt
 
+# Strumenti di verifica del generatore. Scrivono una copia provvisoria del
+# sito per confrontarla con quello pubblicato, poi la cancellano: non serve
+# tenerne traccia.
+strumenti/prova-generata/
+
 # File temporanei del sistema operativo e degli editor.
 Thumbs.db
 .DS_Store
