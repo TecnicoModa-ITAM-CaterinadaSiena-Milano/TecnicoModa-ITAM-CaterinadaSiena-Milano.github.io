@@ -237,6 +237,8 @@ a { color: var(--blu); text-underline-offset: 3px; }
 .btn--contorno { background: transparent; color: var(--testo); border-color: var(--bordo-chiaro); }
 .btn--contorno:hover { background: var(--bordo-chiaro); color: var(--su-chiaro); border-color: var(--bordo-chiaro); }
 
+.iscrizioni__azione { margin-block: var(--s-5); }
+
 
 /* =========================================================================
    6. INTESTAZIONE — titolo su due livelli

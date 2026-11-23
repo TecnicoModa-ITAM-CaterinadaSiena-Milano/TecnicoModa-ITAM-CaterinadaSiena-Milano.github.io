@@ -60,6 +60,10 @@
   );
 }
 
+.codice-meccanografico {
+  color: var(--bordo);
+}
+
 
 /* =========================================================================
    LA HOME DI QUESTO ASPETTO: IL TITOLO A SINISTRA E LA MANICHINA A DESTRA
