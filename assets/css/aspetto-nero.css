@@ -218,8 +218,30 @@
     background-image: var(--sfumatura-arcobaleno);
     background-size: 280% 100%;
     color: transparent;
+     -webkit-text-fill-color: transparent;
+  }
+
+  /* Titoli della pagina sull'indirizzo: il multicolore e' sempre attivo,
+     anche quando il sistema chiede di ridurre il movimento. */
+  .cangiante {
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-image: var(--sfumatura-arcobaleno);
+    background-size: 280% 100%;
+    color: transparent;
     -webkit-text-fill-color: transparent;
   }
+}
+
+/* Questa pagina deve mantenere il cambiamento di colore anche con
+   prefers-reduced-motion: reduce: non c'e' spostamento, cambia solo la tinta. */
+@keyframes arcobaleno-pagina-indirizzo {
+  from { background-position: 0% 50%; }
+  to   { background-position: 280% 50%; }
+}
+
+.cangiante {
+  animation: arcobaleno-pagina-indirizzo 14s linear infinite;
 }
 
 /* -------------------------------------------------------------------------
